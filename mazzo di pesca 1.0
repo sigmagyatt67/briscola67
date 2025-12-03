@@ -1,0 +1,16 @@
+#include<iostream>
+#include<ctime>
+#include<cstdlib>
+using namespace std;
+int main(){
+
+struct MyData {
+    char lettera;
+    int numero;
+    }
+
+srand(time(NULL))
+vector <mydata>
+
+
+}
