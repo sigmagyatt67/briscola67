@@ -1,0 +1,39 @@
+#include<iostream>
+#include<ctime>
+#include<cstdlib>
+#include<string>
+#include<vector>
+using namespace std;
+struct mydata {
+    int value;
+    string segno;
+    //creazione di mydata
+};
+
+int main(){
+srand(time(NULL));
+
+
+
+vector <mydata> mazzo;
+
+for(int a=1; a<11; a++){
+	mazzo.push_back({a," Denari"});
+}
+for(int b=1; b<11; b++){
+	mazzo.push_back({b," Bastoni"});
+}
+for(int c=1; c<11; c++){
+	mazzo.push_back({c," Spade"});
+}
+for(int d=1; d<11; d++){
+	mazzo.push_back({d," Coppe"});
+}
+//riempimento vettore con le carte
+
+/*for(int z=0; z<40;z++){
+	cout<<mazzo[z].segno<< " "<<mazzo[z].value<<endl;
+}*/
+//stampa per controllare
+}
+}
