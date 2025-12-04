@@ -3,7 +3,7 @@
 #include<cstdlib>
 #include<string>
 #include<vector>
-using namespace std;
+using namespace std; 
 struct mydata {
     int value;
     string segno;
