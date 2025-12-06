@@ -1,0 +1,63 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <cstdlib> 
+#include <ctime>
+
+using namespace std;
+int main(){
+	int valorecarta, puntisq1, puntisq2;	
+	if( /*prende squadra 1*/){
+	
+	if(valorecarta = 1 ){
+		puntisq1=puntisq1+11;
+	}
+else if( valorecarta= 3){
+		puntisq1=puntisq1+10;
+	}
+	else if( valorecarta= 10){
+		puntisq1=puntisq1+4
+	}
+	else if( valorecarta= 9){
+		puntisq1=puntisq1+3;
+	}
+	else if( valorecarta= 8){
+		puntisq1=puntisq1+2;
+	}
+	else{
+		puntisq1= puntisq1;
+	} 
+	
+}
+    else {
+    	if(valorecarta = 1 ){
+		puntisq2=puntisq2+11;
+	}
+else if( valorecarta= 3){
+		puntisq2=puntisq2+10;
+	}
+	else if( valorecarta= 10){
+		puntisq2=puntisq2+4
+	}
+	else if( valorecarta= 9){
+		puntisq2=puntisq2+3;
+	}
+	else if( valorecarta= 8){
+		puntisq2=puntisq2+2;
+	}
+	else{
+		puntisq2= puntisq2;
+	} 
+	
+}
+     cout<<" la squadra uno ha fatto "<<puntisq1<<" punti "<<endl;
+    cout<<" la squadra due ha fatto "<<puntisq2<<" punti "<<endl;
+    if( puntisq1>puntisq2){
+    	cout<<" ha vinto la squadra uno "<<endl;
+	}
+    else{
+    	cout<<" ha vinto la squdra due "<<endl; 
+	}
+}
+	
