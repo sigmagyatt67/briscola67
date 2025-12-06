@@ -3,16 +3,19 @@
 #include<cstdlib>
 #include<string>
 #include<vector>
-using namespace std; 
+#include<algorithm>
+using namespace std;
 struct mydata {
-    int value;
+    int valorecarta;
     string segno;
     //creazione di mydata
 };
 
 int main(){
 srand(time(NULL));
-
+std::random_device rd;
+    // Usiamo mt19937 come motore di generazione (consigliato)
+std::mt19937 g(rd());
 
 
 vector <mydata> mazzo;
@@ -31,9 +34,12 @@ for(int d=1; d<11; d++){
 }
 //riempimento vettore con le carte
 
-/*for(int z=0; z<40;z++){
-	cout<<mazzo[z].segno<< " "<<mazzo[z].value<<endl;
-}*/
-//stampa per controllare
+shuffle( mazzo.begin(), mazzo.end(), g);
+
+//shuffle del mazzo
+
+for(int z=0; z<40;z++){
+	cout<<mazzo[z].segno<< " "<<mazzo[z].valorecarta<<endl;
 }
+//stampa per controllare
 }
