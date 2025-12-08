@@ -1,1 +1,59 @@
+/*bot difficoltà facile:
+carta in tavola= briscola
+azione bot= giocherà una briscola
+carta in tavola= diversa da una briscola
+azione bot= gioca una carta di alto valore */
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm> 
+using namespace std;
+int main(){
 
+	string azione, briscola;
+	struct mydata{
+	int value;
+	string segno;	
+	}
+	vector <mydata> tavolo;
+	vector <mydata> manobot;
+	
+	cout<<" in tavola c'è "<<endl;
+	cin>> tavolo.begin();
+	
+	/*se la carta in tavola è una briscola 
+	il bot deve rispondere con un altra briscola*/
+	
+	if( tavolo.begin() == briscola) {
+		cout<< azione<<" il bot giocherà una briscola "<<endl;
+	}
+	else{
+		azione<<" il bot decide di giocare una carta di alto valore "<<endl;
+		int max;
+		max= *max_element(manobot.begin(), manobot.end());
+		cout<< " il bot giocherà un "<<max<< " di "<</* seme della carta*/ <<endl;
+	}
+	
+    /*se la carta in tavola è di valore > di 7 il bot giocherà la sua carta maggiore*/
+    
+    if( value > 7){
+    	cout<<azione<<" il bot giocherà la sua carta di valore più alto "<<endl;
+    	int max;
+		max= *max_element(manobot.begin(), manobot.end());
+		cout<< " il bot giocherà un "<<max<< " di "<</* seme della carta*/ <<endl;
+	}
+	else{
+		cout<<azione<<" il bot andrà "liscio" "<<endl;
+		int min;
+		min= *min_element(manobot.begin(), manobot.end());
+		cout<< " il bot giocherà un "<<min<< " di "<</* seme della carta*/ <<endl;
+	}
+	if( value = 3){
+		cout<<azione<<" il bot giocherà una briscola di valore basso "<<endl;
+	}
+	else{
+		cout<<azione<< " il bot "
+	}
+
+	
+}
