@@ -51,7 +51,7 @@ setlocale(LC_ALL, " ita ");
 		mano2.push_back(mazzo.back()); mazzo.pop_back();
 	}
 
-	// La briscola è il seme della carta in cima al mazzo (se presente)
+	// La briscola ? il seme della carta in cima al mazzo (se presente)
 	string BRISCOLA = " ";
 	if(!mazzo.empty()) BRISCOLA = mazzo.back().segno;
 	cout << "BRISCOLA : " << BRISCOLA <<endl;
@@ -60,7 +60,7 @@ setlocale(LC_ALL, " ita ");
 
 	while(!mano1.empty(),  !mano2.empty()){
 		cout << "\n--- Nuova mano ---\n";
-		cout << "Primo a giocare: " << primo_giocatore << " la BRISCOLA è : " << BRISCOLA <<endl;
+		cout << "Primo a giocare: " << primo_giocatore << " la BRISCOLA ? : " << BRISCOLA <<endl;
 
 		// Mostra mano utente
 		cout << "La tua mano: \n";
@@ -110,19 +110,19 @@ setlocale(LC_ALL, " ita ");
 		int puntiSeconda = puntiDaValore(cartaSeconda.value);
 
 		string vincitore;
-		// Se entrambe dello stesso seme (non necessariamente briscola), chi ha più punti vince
+		// Se entrambe dello stesso seme (non necessariamente briscola), chi ha pi? punti vince
 		if(cartaPrima.segno == cartaSeconda.segno){
 			if(puntiSeconda > puntiPrima){
 				// rispondente vince
 				vincitore = primoagiocare ? "squadra2" : "squadra1";
 			} else {
-				// primo vince anche in caso di parità punti
+				// primo vince anche in caso di parit? punti
 				vincitore = primo_giocatore;
 			}
 		} else {
 			// semi diversi
 			if(primabriscola && !secondabriscola){
-				// prima è briscola, secondo non puo' prendere
+				// prima ? briscola, secondo non puo' prendere
 				vincitore = primo_giocatore;
 			} else if(!primabriscola && secondabriscola){
 				// secondo gioca briscola, puo' prendere solo se e' briscola e ha punti superiori
@@ -157,12 +157,11 @@ setlocale(LC_ALL, " ita ");
 			}
 		}
 
-		// il vincitore sarà il primo a giocare nella prossima mano
+		// il vincitore sar? il primo a giocare nella prossima mano
 		primo_giocatore = vincitore;
 		cout << "Punteggio attuale = Squadra1: " << puntisq1 << " e Squadra2: " << puntisq2 <<endl;
 	}
 
 	cout << "Partita terminata. Punteggio finale = Squadra1: " << puntisq1 << " e Squadra2: " << puntisq2 <<endl;
-	return 0;
+return 0;
 }
-
