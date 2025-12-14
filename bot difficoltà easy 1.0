@@ -22,12 +22,12 @@ int puntiDaValore(int v){
 	return 0;
 }
 
-void stampaCarta(const mydata &c){
+void stampaCarta (const mydata &c){
 	cout << c.value << " di " << c.segno;
 }
 
 int main(){
-	setlocale(LC_ALL, " ita ");
+setlocale(LC_ALL, " ita ");
 	int puntisq2 = 0;
 	int puntisq1 = 0;
     
@@ -46,107 +46,109 @@ int main(){
 
 	// Distribuisci 3 carte a ciascuna mano
 	vector<mydata> mano1, mano2; // mano1 = squadra1 (utente), mano2 = bot
-	for(int i=0;i<3;++i){
+	for(int i=1; i<4; ++i){
 		mano1.push_back(mazzo.back()); mazzo.pop_back();
 		mano2.push_back(mazzo.back()); mazzo.pop_back();
 	}
 
 	// La briscola è il seme della carta in cima al mazzo (se presente)
-	string briscola = " ";
-	if(!mazzo.empty()) briscola = mazzo.back().segno;
-	cout << "Briscola : " << briscola <<endl;
+	string BRISCOLA = " ";
+	if(!mazzo.empty()) BRISCOLA = mazzo.back().segno;
+	cout << "BRISCOLA : " << BRISCOLA <<endl;
 
-	string firstPlayer = "squadra1"; // inizialmente squadra1 inizia
+	string primo_giocatore = "squadra1"; // inizialmente squadra1 inizia
 
-	while(!mano1.empty() || !mano2.empty()){
+	while(!mano1.empty(),  !mano2.empty()){
 		cout << "\n--- Nuova mano ---\n";
-		cout << "Primo a giocare: " << firstPlayer << " la briscola è : " << briscola <<endl;
+		cout << "Primo a giocare: " << primo_giocatore << " la BRISCOLA è : " << BRISCOLA <<endl;
 
 		// Mostra mano utente
 		cout << "La tua mano: \n";
-		for(size_t i=0;i<mano1.size();++i){
-			cout << i << ") "; stampaCarta(mano1[i]); cout << " (" << puntiDaValore(mano1[i].value) << " punti)"<<endl;
-		}
+		for(size_t i=0; i<mano1.size(); ++i){
+			cout << i <<" ) "; stampaCarta(mano1[i]); cout << " vale " << puntiDaValore(mano1[i].value) << " punti "<<endl;
+		} 
 
 		mydata cartaPrima, cartaSeconda;
-		bool firstIsUser = (firstPlayer == "squadra1");
+		bool primoagiocare = (primo_giocatore == "squadra1");
 
-		if(firstIsUser){
+		if(primoagiocare){
 			// utente gioca per primo
-			int idx;
+			int indice_carta;
 			do{
-				cout << "Scegli indice carta da giocare: "; cin >> idx;
-			}while(idx<0 || idx >= (int)mano1.size());
-			cartaPrima = mano1[idx];
-			mano1.erase(mano1.begin()+idx);
+				cout << "Scegli che carta giocare: "<<endl; 
+				cin >> indice_carta;
+			}while(indice_carta<1, indice_carta >= (int)mano1.size());
+			cartaPrima = mano1[indice_carta];
+			mano1.erase(mano1.begin()+indice_carta);
 
 			// Bot risponde: gioca una carta casuale tra le sue
-			int idxb = rng() % mano2.size();
-			cartaSeconda = mano2[idxb];
-			mano2.erase(mano2.begin()+idxb);
-			cout << "Il bot risponde con: "; stampaCarta(cartaSeconda); cout << " (" << puntiDaValore(cartaSeconda.value) << " punti)"<<endl;
+			int indice_cartabot = rand() % mano2.size();
+			cartaSeconda = mano2[indice_cartabot];
+			mano2.erase(mano2.begin()+indice_cartabot);
+			cout << "Il bot risponde con: "; stampaCarta (cartaSeconda); cout << " che vale " << puntiDaValore(cartaSeconda.value) << " punti "<<endl;
 		} else {
 			// bot gioca per primo
-			int idxb = rng() % mano2.size();
-			cartaPrima = mano2[idxb];
-			mano2.erase(mano2.begin()+idxb);
-			cout << "Il bot gioca: "; stampaCarta(cartaPrima); cout << " (" << puntiDaValore(cartaPrima.value) << " punti)"<<endl;
+			int indice_cartabot = rand() % mano2.size();
+			cartaPrima = mano2[indice_cartabot];
+			mano2.erase(mano2.begin()+indice_cartabot);
+			cout << "Il bot gioca: "; stampaCarta (cartaPrima); cout << " che vale " << puntiDaValore(cartaPrima.value) << " punti "<<endl;
 
 			// utente risponde
-			int idx;
+			int indice_carta;
 			do{
-				cout << "Scegli indice carta da giocare in risposta: "; cin >> idx;
-			}while(idx<0 || idx >= (int)mano1.size());
-			cartaSeconda = mano1[idx];
-			mano1.erase(mano1.begin()+idx);
+				cout << "Scegli che carta giocare in risposta: "<<endl;
+				cin >> indice_carta;
+			}while(indice_carta<1, indice_carta >= (int)mano1.size());
+			cartaSeconda = mano1[indice_carta];
+			mano1.erase(mano1.begin()+indice_carta);
 		}
 
 		// Determina il vincitore basato su briscola e punti:
-		bool primaEbriscola = (!briscola.empty() && cartaPrima.segno == briscola);
-		bool secondaEbriscola = (!briscola.empty() && cartaSeconda.segno == briscola);
+		bool primabriscola = (!BRISCOLA.empty() && cartaPrima.segno == BRISCOLA);
+		bool secondabriscola = (!BRISCOLA.empty() && cartaSeconda.segno == BRISCOLA);
 		int puntiPrima = puntiDaValore(cartaPrima.value);
 		int puntiSeconda = puntiDaValore(cartaSeconda.value);
 
-		string winner;
+		string vincitore;
 		// Se entrambe dello stesso seme (non necessariamente briscola), chi ha più punti vince
 		if(cartaPrima.segno == cartaSeconda.segno){
 			if(puntiSeconda > puntiPrima){
 				// rispondente vince
-				winner = firstIsUser ? "squadra2" : "squadra1";
+				vincitore = primoagiocare ? "squadra2" : "squadra1";
 			} else {
 				// primo vince anche in caso di parità punti
-				winner = firstPlayer;
+				vincitore = primo_giocatore;
 			}
 		} else {
 			// semi diversi
-			if(primaEbriscola && !secondaEbriscola){
+			if(primabriscola && !secondabriscola){
 				// prima è briscola, secondo non puo' prendere
-				winner = firstPlayer;
-			} else if(!primaEbriscola && secondaEbriscola){
-				// secondo gioca briscola -> puo' prendere solo se e' briscola e ha punti superiori
+				vincitore = primo_giocatore;
+			} else if(!primabriscola && secondabriscola){
+				// secondo gioca briscola, puo' prendere solo se e' briscola e ha punti superiori
 				if(puntiSeconda > puntiPrima) {
-					winner = firstIsUser ? "squadra2" : "squadra1";
+					vincitore = primoagiocare ? "squadra2" : "squadra1";
 				} else {
-					winner = firstPlayer;
+					vincitore = primo_giocatore;
 				}
 			} else {
 				// nessuna briscola, semi diversi => vince chi ha giocato per primo
-				winner = firstPlayer;
+				vincitore = primo_giocatore;
 			}
 		}
 
 		int puntiMano = puntiPrima + puntiSeconda;
-		if(winner == "squadra2"){
+		if(vincitore == "squadra2"){
 			puntisq2 += puntiMano;
-			cout << "La mano e' vinta da SQUADRA 2 (BOT). Punti guadagnati: " << puntiMano <<endl;
+			cout << "La mano e' vinta dalla SQUADRA 2 (BOT). Punti guadagnati: " << puntiMano <<endl;
 		} else {
 			puntisq1 += puntiMano;
-			cout << "La mano e' vinta da SQUADRA 1. Punti guadagnati: " << puntiMano <<endl;
+			cout << "La mano e' vinta dalla SQUADRA 1 (TU). Punti guadagnati: " << puntiMano <<endl;
 		}
 
 		// Il vincitore pesca per primo (se ci sono carte nel mazzo)
 		if(!mazzo.empty()){
-			if(winner == "squadra1"){
+			if(vincitore == "squadra1"){
 				mano1.push_back(mazzo.back()); mazzo.pop_back();
 				if(!mazzo.empty()){ mano2.push_back(mazzo.back()); mazzo.pop_back(); }
 			} else {
@@ -156,10 +158,11 @@ int main(){
 		}
 
 		// il vincitore sarà il primo a giocare nella prossima mano
-		firstPlayer = winner;
-		cout << "Punteggio attuale= Squadra1: " << puntisq1 << " e Squadra2: " << puntisq2 <<endl;
+		primo_giocatore = vincitore;
+		cout << "Punteggio attuale = Squadra1: " << puntisq1 << " e Squadra2: " << puntisq2 <<endl;
 	}
 
-	cout << "Partita terminata. Punteggio finale= Squadra1: " << puntisq1 << " e Squadra2: " << puntisq2 <<endl;
+	cout << "Partita terminata. Punteggio finale = Squadra1: " << puntisq1 << " e Squadra2: " << puntisq2 <<endl;
 	return 0;
 }
+
