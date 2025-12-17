@@ -1,0 +1,138 @@
+#include <iostream>
+#include <windows.h>
+#include <cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
+#include <algorithm>
+#include <ctime>
+
+using namespace std;
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+
+int mazzo(){
+
+	struct mydata {
+    int valorecarta;
+    string segno;
+    //creazione di mydata
+};
+
+srand(time(NULL));
+std::random_device rd;
+    // Usiamo mt19937 come motore di generazione (consigliato)
+std::mt19937 g(rd());
+
+
+vector <mydata> mazzo;
+
+for(int a=1; a<11; a++){
+	mazzo.push_back({a," Denari"});
+}
+for(int b=1; b<11; b++){
+	mazzo.push_back({b," Bastoni"});
+}
+for(int c=1; c<11; c++){
+	mazzo.push_back({c," Spade"});
+}
+for(int d=1; d<11; d++){
+	mazzo.push_back({d," Coppe"});
+}
+//riempimento vettore con le carte
+
+shuffle( mazzo.begin(), mazzo.end(), g);
+
+//shuffle del mazzo
+
+for(int z=0; z<40;z++){
+	cout<<mazzo[z].segno<< " "<<mazzo[z].valorecarta<<endl;
+}
+//stampa per controllare
+
+//funzione mazzo di pesca
+}
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+int main() {
+    int scelta, show_license;
+    int turno=1;
+system("mode con: cols=120 lines=40");
+       system("chcp 65001 > nul");
+    do {
+       
+		system("CLS");
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		// 1. Mostra il menu all'utente
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+ 
+ std::cout << "                                  ____________________________________________________" << std::endl;
+ std::cout << "                                 {                    Briscola                        }" << std::endl;                                                                                                                                               
+ std::cout << "                                 {   Elia cortesi; Nicolo' Bedeschi; Gabriele Romano  }" << std::endl;
+ std::cout << "                                 {____________________________________________________} "<< std::endl;
+ 
+     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+ std::cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_" << std::endl;
+ std::cout << "    _                  ____  ______ _____  _____  _____  _____   _                          .-------.                   " << std::endl;
+ std::cout << "   | |        /\\      |  _ \\|  __  \|_   _|/ ____|/ ____ / __  \\ | |          /\\             |67.--. |                   " << std::endl;
+ std::cout << "   | |       /  \\     | |_) | |__) | | |  | (___ | |   | |  | | | |         /  \\            | (\\/)  |                  " << std::endl;
+ std::cout << "   | |      / /\\ \\    |  _ <|  _  /  | |  |\___  \\| |     |  | | | |        / /\\ \\\           | :\\/:  |                   " << std::endl;
+ std::cout << "   | |____ / ____ \\   | |_) | | \\ \\ _| |_ ____) || |___| |__| | | |____   / ____ \\\          | '--'67|                   " << std::endl;
+ std::cout << "   |______/_/    \\_\\  |____/|_|  \\_\\_\_____|_____/\\_____|\\_____/ |______| /_/    \\_\\         `-------'                   " << std::endl;
+ std::cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-      " << std::endl;
+	
+	
+		//std::cout << "---| LA BRISCOLA |---" << std::endl;
+std::cout << "                                                                                                                         " << std::endl;
+std::cout << "                                                                                                                         " << std::endl;
+		SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+		std::cout << "1. Singolo ===>  1 vs 1" << std::endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+		std::cout << "2. Doppio  ===>  2 vs 2" << std::endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+		std::cout << "3. Cinque  ===>  2 vs 3 ===> (a chiamata)" << std::endl;
+		SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		std::cout << "4. Esci" << std::endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+std::cout << "                                                                                                                         " << std::endl;		
+		std::cout << "IINSERISCI LA MODALITA' DI GIOCO': ";
+        std::cin >> scelta;
+
+        // 2. Gestisci la scelta dell'utente usando uno switch
+      /*  switch (scelta) {
+            case 1:
+                cout << "Hai scelto l'Opzione 1." << std::endl;
+                
+                break;
+            case 2:
+                cout << "Hai scelto l'Opzione 2." << std::endl;
+                // Inserisci il codice per l'Opzione 2 qui
+                break;
+            case 3:
+                cout << "Hai scelto l'Opzione 3." << std::endl;
+                break;
+			case 4:
+            	cout << "Uscita dal programma" << std::endl;
+                break;
+			default:
+                
+				std::cout << "MODALITA' DI GIOCO NON ESISTENTE. Riprova." << std::endl;
+        }
+    } while (scelta=0);  */    }
+//-------------------------------------------------------modalità di gioco 1------------------------------------------------------------------------------------------
+
+
+while(scelta-1==1);{
+cout<<"Hai scelto l'Opzione 1."<<endl;
+ mazzo() ;
+ while(turno )
+}
+
+}
+          
