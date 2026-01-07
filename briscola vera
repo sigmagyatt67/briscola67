@@ -52,25 +52,25 @@ int main() {
 		// 1. Mostra il menu all'utente
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
  
- std::cout << "                                  ____________________________________________________" << std::endl;
- std::cout << "                                 {                    Briscola                        }" << std::endl;                                                                                                                                               
- std::cout << "                                 {   Elia cortesi; Nicolo' Bedeschi; Gabriele Romano  }" << std::endl;
- std::cout << "                                 {____________________________________________________} "<< std::endl;
+ cout << "                                  ____________________________________________________" << endl;
+ cout << "                                 {                    Briscola                        }" << endl;                                                                                                                                               
+ cout << "                                 {   Elia cortesi; Nicolo' Bedeschi; Gabriele Romano  }" << endl;
+ cout << "                                 {____________________________________________________} "<< endl;
  
      SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
- std::cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_" << std::endl;
- std::cout << "    _                  ____  ______ _____  _____  _____  _____   _                          .-------.                   " << std::endl;
- std::cout << "   | |        /\\      |  _ \\|  __  \|_   _|/ ____|/ ____ / __  \\ | |          /\\             |67.--. |                   " << std::endl;
- std::cout << "   | |       /  \\     | |_) | |__) | | |  | (___ | |   | |  | | | |         /  \\            | (\\/)  |                  " << std::endl;
- std::cout << "   | |      / /\\ \\    |  _ <|  _  /  | |  |\___  \\| |     |  | | | |        / /\\ \\\           | :\\/:  |                   " << std::endl;
- std::cout << "   | |____ / ____ \\   | |_) | | \\ \\ _| |_ ____) || |___| |__| | | |____   / ____ \\\          | '--'67|                   " << std::endl;
- std::cout << "   |______/_/    \\_\\  |____/|_|  \\_\\_\_____|_____/\\_____|\\_____/ |______| /_/    \\_\\         `-------'                   " << std::endl;
- std::cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-      " << std::endl;
+ cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_" << endl;
+ cout << "    _                  ____  ______ _____  _____  _____  _____   _                          .-------.                   " << endl;
+ cout << "   | |        /\\      |  _ \\|  __  \|_   _|/ ____|/ ____ / __  \\ | |          /\\             |67.--. |                   " << endl;
+ cout << "   | |       /  \\     | |_) | |__) | | |  | (___ | |   | |  | | | |         /  \\            | (\\/)  |                  " << endl;
+ cout << "   | |      / /\\ \\    |  _ <|  _  /  | |  |\___  \\| |     |  | | | |        / /\\ \\\           | :\\/:  |                   " << endl;
+ cout << "   | |____ / ____ \\   | |_) | | \\ \\ _| |_ ____) || |___| |__| | | |____   / ____ \\\          | '--'67|                   " << endl;
+ cout << "   |______/_/    \\_\\  |____/|_|  \\_\\_\_____|_____/\\_____|\\_____/ |______| /_/    \\_\\         `-------'                   " << endl;
+ cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-      " << endl;
 	
 	
 		//std::cout << "---| LA BRISCOLA |---" << std::endl;
-std::cout << "                                                                                                                         " << std::endl;
-std::cout << "                                                                                                                         " << std::endl;
+cout << "                                                                                                                         " <<endl;
+cout << "                                                                                                                         " << std::endl;
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         cout << "\n1. Singolo ===> 1 vs 1" << endl;
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
