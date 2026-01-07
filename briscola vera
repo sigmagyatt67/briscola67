@@ -5,69 +5,49 @@
 #include <stdlib.h>
 #include <algorithm>
 #include <ctime>
+#include <vector>
+#include <random>
+#include <string>  
 
 using namespace std;
 
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-
-int mazzo(){
-
-	struct mydata {
+struct mydata {
     int valorecarta;
     string segno;
-    //creazione di mydata
 };
 
-srand(time(NULL));
-std::random_device rd;
-    // Usiamo mt19937 come motore di generazione (consigliato)
-std::mt19937 g(rd());
+void generaMazzo() { 
+    srand(time(NULL));
+    std::random_device rd;
+    std::mt19937 g(rd());
 
+    vector<mydata> v_mazzo; // Cambiato nome variabile
 
-vector <mydata> mazzo;
-
-for(int a=1; a<11; a++){
-	mazzo.push_back({a," Denari"});
+    for(int a=1; a<11; a++) {
+	v_mazzo.push_back({a," Denari"});
 }
-for(int b=1; b<11; b++){
-	mazzo.push_back({b," Bastoni"});
+    for(int b=1; b<11; b++) {
+	v_mazzo.push_back({b," Bastoni"});
 }
-for(int c=1; c<11; c++){
-	mazzo.push_back({c," Spade"});
+    for(int c=1; c<11; c++) {
+	v_mazzo.push_back({c," Spade"});
 }
-for(int d=1; d<11; d++){
-	mazzo.push_back({d," Coppe"});
+    for(int d=1; d<11; d++) {
+	v_mazzo.push_back({d," Coppe"});
 }
-//riempimento vettore con le carte
 
-shuffle( mazzo.begin(), mazzo.end(), g);
-
-//shuffle del mazzo
-
-for(int z=0; z<40;z++){
-	cout<<mazzo[z].segno<< " "<<mazzo[z].valorecarta<<endl;
+    shuffle(v_mazzo.begin(), v_mazzo.end(), g);
+    
+    cout << "Mazzo generato e mescolato" << endl;
 }
-//stampa per controllare
-
-//funzione mazzo di pesca
-}
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
 
 int main() {
-    int scelta, show_license;
-    int turno=1;
-system("mode con: cols=120 lines=40");
-       system("chcp 65001 > nul");
+    int scelta = 0;
+    system("mode con: cols=120 lines=40");
+    system("chcp 65001 > nul");
+
     do {
-       
-		system("CLS");
+       	system("CLS");
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		// 1. Mostra il menu all'utente
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
@@ -91,48 +71,44 @@ system("mode con: cols=120 lines=40");
 		//std::cout << "---| LA BRISCOLA |---" << std::endl;
 std::cout << "                                                                                                                         " << std::endl;
 std::cout << "                                                                                                                         " << std::endl;
-		SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-		std::cout << "1. Singolo ===>  1 vs 1" << std::endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        cout << "\n1. Singolo ===> 1 vs 1" << endl;
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-		std::cout << "2. Doppio  ===>  2 vs 2" << std::endl;
+        cout << "2. Doppio  ===> 2 vs 2" << endl;
         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-		std::cout << "3. Cinque  ===>  2 vs 3 ===> (a chiamata)" << std::endl;
-		SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-		std::cout << "4. Esci" << std::endl;
-        SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-std::cout << "                                                                                                                         " << std::endl;		
-		std::cout << "IINSERISCI LA MODALITA' DI GIOCO': ";
-        std::cin >> scelta;
+        cout << "3. Cinque  ===> 2 vs 3 (a chiamata)" << endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+        cout << "4. Esci" << endl;
+        
+        cout << "\nINSERISCI LA MODALITA' DI GIOCO: ";
+        cin >> scelta;
 
-        // 2. Gestisci la scelta dell'utente usando uno switch
-      /*  switch (scelta) {
+        // Gestione scelta
+        switch (scelta) {
             case 1:
-                cout << "Hai scelto l'Opzione 1." << std::endl;
-                
+                cout << "Hai scelto l'Opzione 1, briscola 1 contro 1" << endl;
+                generaMazzo();
+                system("pause"); // Per vedere il messaggio prima del refresh
                 break;
             case 2:
-                cout << "Hai scelto l'Opzione 2." << std::endl;
-                // Inserisci il codice per l'Opzione 2 qui
+                cout << "Hai scelto l'opzione 2, briscola 2 contro 2" << endl;
+                generaMazzo();
+                system("pause");
                 break;
             case 3:
-                cout << "Hai scelto l'Opzione 3." << std::endl;
+                cout << "Hai scelto l'opzione 3, briscola a chiamata" << endl;
+                generaMazzo();
+                system("pause");
                 break;
-			case 4:
-            	cout << "Uscita dal programma" << std::endl;
+            case 4:
+                cout << "Uscita..." << endl;
                 break;
-			default:
-                
-				std::cout << "MODALITA' DI GIOCO NON ESISTENTE. Riprova." << std::endl;
+            default:
+                cout << "Scelta non valida!" << endl;
+                system("pause");
         }
-    } while (scelta=0);  */    }
-//-------------------------------------------------------modalità di gioco 1------------------------------------------------------------------------------------------
 
+    } while (scelta != 4); // Esce quando premi 4
 
-while(scelta-1==1);{
-cout<<"Hai scelto l'Opzione 1."<<endl;
- mazzo() ;
- while(turno )
+    return 0;
 }
-
-}
-          
