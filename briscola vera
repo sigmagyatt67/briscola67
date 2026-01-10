@@ -89,7 +89,7 @@ srand(time(NULL));
 
         // MOSTRA LA MANO ALL'UTENTE
         cout << "La tua mano: \n";
-        for (size_t i = 0; i < mano1.size(); ++i) {
+        for (int i = 1; i < mano1.size()+1; ++i) {
             cout << i << " ) "; 
             stampaCarta(mano1[i]); 
             cout << " vale " << puntiDaValore(mano1[i].value) << " punti " << endl;
