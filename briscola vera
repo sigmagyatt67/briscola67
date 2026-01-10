@@ -1,11 +1,14 @@
 #include <iostream>
-
+#include <windows.h>
+#include <cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector> 
 #include <string>
-#include <vector>
 #include <algorithm> 
 #include <ctime>
-#include <cstdlib>
-#include <random> // Aggiunta per il supporto a mt19937
+#include <random> 
+// Aggiunta per il supporto a mt19937
 
 using namespace std;
 
@@ -34,6 +37,8 @@ void stampaCarta(const mydata &c) {
 #########################################################################################################################################################################*/
 vector<mydata> generaMazzo() {
     vector<mydata> mazzo;
+    
+srand(time(NULL));
 
     for(int a = 1; a <= 10; a++) mazzo.push_back({a, "Denari"});
     for(int a = 1; a <= 10; a++) mazzo.push_back({a, "Bastoni"});
@@ -41,18 +46,18 @@ vector<mydata> generaMazzo() {
     for(int a = 1; a <= 10; a++) mazzo.push_back({a, "Coppe"});
 
     random_device rd;
-    mt19937 g(rd());
+    mt19937 g(rand()%1000);
     shuffle(mazzo.begin(), mazzo.end(), g);
 
     return mazzo;
 }
-
 /*#########################################################################################################################################################################
 #########################################################################################################################################################################*/
+ int unocontrouno(){
  
- int main(){
- 	
- 	setlocale(LC_ALL, "ita");
+ srand(time(NULL));
+ 
+	setlocale(LC_ALL, "ita");
  	
  	
  	int puntisq2 = 0;
@@ -196,3 +201,86 @@ vector<mydata> generaMazzo() {
     cout << "Partita terminata. Punteggio finale = Squadra1: " << puntisq1 << " e Squadra2: " << puntisq2 << endl;
     return 0;
 }
+
+/*#########################################################################################################################################################################
+#########################################################################################################################################################################*/
+ 
+ int main(){
+ 	
+ 	   int scelta = 0;
+    system("mode con: cols=120 lines=40");
+    system("chcp 65001 > nul");
+
+    do {
+       	system("CLS");
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		// 1. Mostra il menu all'utente
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+ 
+ cout << "                                  ____________________________________________________" << endl;
+ cout << "                                 {                    Briscola                        }" << endl;                                                                                                                                               
+ cout << "                                 {   Elia cortesi; Nicolo' Bedeschi; Gabriele Romano  }" << endl;
+ cout << "                                 {____________________________________________________} "<< endl;
+ 
+     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+ cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_" << endl;
+ cout << "    _                  ____  ______ _____  _____  _____  _____   _                          .-------.                   " << endl;
+ cout << "   | |        /\\      |  _ \\|  __  \|_   _|/ ____|/ ____ / __  \\ | |          /\\             |67.--. |                   " << endl;
+ cout << "   | |       /  \\     | |_) | |__) | | |  | (___ | |   | |  | | | |         /  \\            | (\\/)  |                  " << endl;
+ cout << "   | |      / /\\ \\    |  _ <|  _  /  | |  |\___  \\| |     |  | | | |        / /\\ \\\           | :\\/:  |                   " << endl;
+ cout << "   | |____ / ____ \\   | |_) | | \\ \\ _| |_ ____) || |___| |__| | | |____   / ____ \\\          | '--'67|                   " << endl;
+ cout << "   |______/_/    \\_\\  |____/|_|  \\_\\_\_____|_____/\\_____|\\_____/ |______| /_/    \\_\\         `-------'                   " << endl;
+ cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-      " << endl;
+	
+	
+		//std::cout << "---| LA BRISCOLA |---" << std::endl;
+cout << "                                                                                                                         " <<endl;
+cout << "                                                                                                                         " <<endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        cout << "\n1. Singolo ===> 1 vs 1" << endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+        cout << "2. Doppio  ===> 2 vs 2" << endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        cout << "3. Cinque  ===> 2 vs 3 (a chiamata)" << endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+        cout << "4. Esci" << endl;
+        
+        cout << "\nINSERISCI LA MODALITA' DI GIOCO: ";
+        cin >> scelta;
+
+        // Gestione scelta
+        switch (scelta) {
+            case 1:
+                cout << "Hai scelto l'Opzione 1, briscola 1 contro 1" << endl;
+				unocontrouno();
+                system("pause"); // Per vedere il messaggio prima del refresh
+                break;
+            case 2:
+                cout << "Hai scelto l'opzione 2, briscola 2 contro 2" << endl;
+                generaMazzo();
+                system("pause");
+                break;
+            case 3:
+                cout << "Hai scelto l'opzione 3, briscola a chiamata" << endl;
+                generaMazzo();
+                system("pause");
+                break;
+            case 4:
+                cout << "Uscita..." << endl;
+                break;
+            case 67:
+            	cout << "Hai scoperto l'easter egg, sei un sigma diddy blud ohio 6767676767676767"<<endl;
+            	generaMazzo();
+            	system("pause");
+            	break;
+            default:
+                cout << "Scelta non valida!" << endl;
+                system("pause");
+        }
+
+    } while (scelta != 4); // Esce quando premi 4
+
+    return 0;
+}
+/*#########################################################################################################################################################################
+#########################################################################################################################################################################*/
