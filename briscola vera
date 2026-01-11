@@ -53,7 +53,7 @@ srand(time(NULL));
 }
 /*#########################################################################################################################################################################
 #########################################################################################################################################################################*/
- int unocontrouno(){
+ int unocontrounofacile(){
  
  srand(time(NULL));
  
@@ -206,7 +206,7 @@ srand(time(NULL));
 #########################################################################################################################################################################*/
  
  int main(){
- 	
+ 	setlocale(LC_ALL, " ita ");
  	   int scelta = 0;
     system("mode con: cols=120 lines=40");
     system("chcp 65001 > nul");
@@ -252,9 +252,19 @@ cout << "                                                                       
         switch (scelta) {
             case 1:
                 cout << "Hai scelto l'Opzione 1, briscola 1 contro 1" << endl;
-				unocontrouno();
+                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        cout << "\n1. FACILE" << endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+        cout << "2. DIFFICILE" << endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+                cout<<"\nSELEZIONA LA DIFFICOLTA: "<<endl;
+                cin>>scelta; 
+				if(scelta==1){
+					cout<<"Hai scelto la difficolta facile, buona partita! "<<endl;                        
+				unocontrounofacile();
                 system("pause"); // Per vedere il messaggio prima del refresh
                 break;
+            }
             case 2:
                 cout << "Hai scelto l'opzione 2, briscola 2 contro 2" << endl;
                 generaMazzo();
@@ -283,4 +293,4 @@ cout << "                                                                       
     return 0;
 }
 /*#########################################################################################################################################################################
-#########################################################################################################################################################################*/
+#####################################################################
