@@ -13,45 +13,25 @@
 using namespace std;
 int main(){
 
-SetConsoleOutputCP(CP_UTF8);               .---------------------------------------------.
-                                           |                                              |
-        cout <<  " .-------.  " << endl;   |                                              |
-        cout <<  " |.--.  |  " << endl;    |                                              |
-        cout <<  " | (\\/)  |  " << endl;  |                                              |
-        cout <<  " | :\\/:  |  " << endl;  |                                              |
-        cout <<  " | '--' |  " << endl;    |                                              |
-        cout <<  " `-------'  " << endl;   |                                              |
-                                           |                                              |
-                                           |                    
-                                           |
-                                           |
-                                           |
-                                           |
-                                           |
-                                           |
-                                           |
-                                           |
-                                           |
-                                           |
-                                           |
-                                           |
-                                           |
-                                           |
-                                           |
-                                           |
-                                            \________________________________________________
-           
-       
-       
-
-
-    cout << "Picche: ?" << endl;
-    cout << "Cuori:  ?" << endl;
-    cout << "Quadri: ?" << endl;
-    cout << "Fiori:  ?" << endl;
-
-
-
+SetConsoleOutputCP(CP_UTF8);             cout <<  "      .-------------------------.           " << endl;
+                                         cout <<  "      |  1                      |           " << endl;
+                                         cout <<  u8"      |            \u25A0            |     " << endl;
+                                         cout <<  "      |           / \\           |           " << endl;
+                                         cout <<  "      |          /   \\          |           " << endl;
+                                         cout <<  "      |         |     |         |           " << endl;
+                                         cout <<  "      |        /       \\        |           " << endl;
+                                         cout <<  "      |     __/  (   )  \\__     |           " << endl;
+                                         cout <<  u8"      |    |    (  \u2666  )    |    |           " << endl;
+                                         cout <<  "      |    |_____(___)_____|    |           " << endl;
+                                         cout <<  "      |    |_______________|    |           " << endl;
+                                         cout <<  "      |    \\               /    |           " << endl;
+                                         cout <<  "      |     \\             /     |           " << endl;
+                                         cout <<  "      |      \\           /      |           " << endl;
+                                         cout <<  "      |       \\         /       |           " << endl;
+                                         cout <<  "      |       /         \\       |           " << endl;
+                                         cout <<u8"      |      /___________\\      |" << endl;
+                                         cout <<u8"      |     \u25CF             \u25CF   1 |           " << endl;
+                                         cout <<  "      \\_________________________/           " << endl;
 
     cout << u8"Picche: \u2660" << endl; // ?
     cout << u8"Cuori:  \u2665" << endl; // ?
