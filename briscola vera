@@ -12,7 +12,7 @@
 
 using namespace std;
 
-// Struttura che rappresenta una singola carta da gioco
+// Struttura mydata per creare le carte
 struct mydata {
     int value;    // Il numero della carta (da 1 a 10)
     string segno; // Il seme (coppe, denari, spade, bastoni)
@@ -29,7 +29,7 @@ int puntiDaValore(int v) {
 }
 /*#########################################################################################################################################################################
 #########################################################################################################################################################################*/
-// Funzione di utilità per stampare a video il nome di una carta
+// Funzione di utilità per stampare  carta -- da modificare per stampare l'immagine
 void stampaCarta(const mydata &c) {
     cout << c.value << " di " << c.segno;
 }
