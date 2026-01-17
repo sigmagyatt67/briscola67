@@ -13,6 +13,7 @@
 using namespace std;
 int main(){
 
+
 SetConsoleOutputCP(CP_UTF8);             cout <<  "      .-------------------------.           " << endl;
                                          cout <<  "      |  1                      |           " << endl;
                                          cout <<  u8"      |            \u25A0            |     " << endl;
@@ -37,4 +38,27 @@ SetConsoleOutputCP(CP_UTF8);             cout <<  "      .----------------------
     cout << u8"Cuori:  \u2665" << endl; // ?
     cout << u8"Quadri: \u2666" << endl; // ?
     cout << u8"Fiori:  \u2663" << endl; // ?
-}
+
+                                         cout <<  "      .-------------------------.            " << endl;
+                                         cout <<  "      |  2                      |            " << endl;
+                                         cout <<  u8"      |           ________      |          " << endl;
+                                         cout <<  "      |          /       /      |            " << endl;
+                                         cout <<  "      |     __  /       /__     |            " << endl;
+                                         cout <<  "      |     \\ \\ |       / /     |          " << endl;
+                                         cout <<  "      |      \\ \\|      / /      |          " << endl;
+                                         cout <<  "      |       \\         |       |           " << endl;
+                                         cout <<  u8"      |        \\        |       |         " << endl;
+                                         cout <<  u8"      |         |  (\u25CF)  |       |     " << endl;
+                                         cout <<  "      |      __ |       |       |            " << endl;
+                                         cout <<  "      |      \\  \\       |       |          " << endl;
+                                         cout <<  "      |       \\  \\      |__     |          " << endl;
+                                         cout <<  "      |        \\        / /     |           " << endl;
+                                         cout <<  "      |         |        /      |            " << endl;
+                                         cout <<  "      |_________|       |_______|            " << endl;
+                                         cout <<u8"      | \u2663   \u2663   |_______|  \u2663    |            " << endl;
+                                         cout <<u8"      |  \u2663   \u2663            \u2663    2|            " << endl;
+                                         cout <<  "      \\_________________________/           " << endl;
+
+
+std::cout << u8" \u2605" << std::endl;
+} 
