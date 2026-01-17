@@ -116,31 +116,33 @@ srand(time(NULL));
             int indice_cartabot2 = rand() % mano2.size(); // Scelta casuale
             cartaSeconda = mano2[indice_cartabot2];
             mano2.erase(mano2.begin() + indice_cartabot2);
-            cout << "Il bot risponde con: "; stampaCarta(cartaSeconda); 
+            cout << "Il bot 1 (NEMICO) risponde con: "; stampaCarta(cartaSeconda); 
             cout << " che vale " << puntiDaValore(cartaSeconda.value) << " punti " << endl;
-        } 
+        
          // IL BOT RISPONDE
             int indice_cartabot3 = rand() % mano3.size(); // Scelta casuale
             cartaTerza = mano3[indice_cartabot3];
             mano3.erase(mano3.begin() + indice_cartabot3);
-            cout << "Il bot risponde con: "; stampaCarta(cartaSeconda); 
-            cout << " che vale " << puntiDaValore(cartaSeconda.value) << " punti " << endl;
-        }
+            cout << "Il bot 2 (COMPAGNO) risponde con: "; stampaCarta(cartaTerza); 
+            cout << " che vale " << puntiDaValore(cartaTerza.value) << " punti " << endl;
+        
          // IL BOT RISPONDE
             int indice_cartabot4 = rand() % mano4.size(); // Scelta casuale
             cartaQuarta = mano4[indice_cartabot4];
             mano4.erase(mano4.begin() + indice_cartabot4);
-            cout << "Il bot risponde con: "; stampaCarta(cartaSeconda); 
-            cout << " che vale " << puntiDaValore(cartaSeconda.value) << " punti " << endl;
-        }
+            cout << "Il bot 3 (NEMICO) risponde con: "; stampaCarta(cartaQuarta); 
+            cout << " che vale " << puntiDaValore(cartaQuarta.value) << " punti " << endl;
+    }
 
         // --- LOGICA DI ASSEGNAZIONE VINCITORE MANO ---
         bool primabriscola = (cartaPrima.segno == BRISCOLA);
         bool secondabriscola = (cartaSeconda.segno == BRISCOLA);
         bool terzabriscola = (cartaTerza.segno == BRISCOLA);
         bool quartabriscola = (cartaQuarta.segno == BRISCOLA);
-        int puntiPrima = puntiDaValore(cartaPrima.value) + puntiDaValore(cartaTerza.value);
-        int puntiSeconda = puntiDaValore(cartaSeconda.value) + puntiDaValore(cartaQuarta.value);
+        int puntiPrima = puntiDaValore(cartaPrima.value);
+        int puntiSeconda = puntiDaValore(cartaSeconda.value); 
+        int puntiTerza = puntiDaValore(cartaTerza.value);
+        int puntiQuarta = puntiDaValore(cartaQuarta.value);
 
 
         string vincitore;
@@ -149,7 +151,7 @@ srand(time(NULL));
         if (cartaPrima.segno == cartaSeconda.segno && cartaPrima.segno == cartaTerza.segno && cartaPrima.segno == cartaQuarta.segno){
             // Vince chi ha più punti (se sono uguali, vince chi ha giocato per primo)
             if (puntiSeconda > puntiPrima || puntiTerza > puntiSeconda || puntiQuarta > puntiTerza) {
-                vincitore = primoagiocare<< "squadra2" : "squadra1 (TU)";
+                vincitore = primoagiocare ? "squadra2" : "squadra1 (TU)";
             } else {
                 vincitore = primo_giocatore;
             }
@@ -190,6 +192,14 @@ srand(time(NULL));
                 if (!mazzo.empty()) { mano2.push_back(mazzo.back()); mazzo.pop_back(); }
             } else {
                 mano2.push_back(mazzo.back()); mazzo.pop_back();
+                if (!mazzo.empty()) { mano3.push_back(mazzo.back()); mazzo.pop_back(); }
+            }
+            if (vincitore == "squadra1 bot") {
+                // Chi vince pesca per primo
+                mano3.push_back(mazzo.back()); mazzo.pop_back();
+                if (!mazzo.empty()) { mano4.push_back(mazzo.back()); mazzo.pop_back(); }
+            } else {
+                mano4.push_back(mazzo.back()); mazzo.pop_back();
                 if (!mazzo.empty()) { mano1.push_back(mazzo.back()); mazzo.pop_back(); }
             }
         }
@@ -263,7 +273,7 @@ cout << "                                                                       
                 cin>>scelta; 
 				if(scelta==1){
 					cout<<"Hai scelto la difficolta facile, buona partita! "<<endl;                        
-				unocontrounofacile();
+				duecontroduefacile();
                 system("pause"); // Per vedere il messaggio prima del refresh
                 break;
             }
@@ -295,4 +305,4 @@ cout << "                                                                       
     return 0;
 }
 /*#########################################################################################################################################################################
-######################################################################*/
+###############################################################*/
