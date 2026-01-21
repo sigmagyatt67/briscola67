@@ -77,18 +77,27 @@ srand(time(NULL));
     }
 
     // --- DETERMINAZIONE BRISCOLA ---
-   string BRISCOLA = " ";
-    if (!mazzo.empty()) BRISCOLA = mazzo.back().segno; // L'ultima carta determina il seme di briscola
-    cout << " BRISCOLA : " << BRISCOLA << endl;
+    mydata cartaBriscola;
+    if (!mazzo.empty()) {
+    cartaBriscola = mazzo.back();
+    }
+    string BRISCOLA = cartaBriscola.segno;
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+    cout << "BRISCOLA: ";
+    stampaCarta(cartaBriscola);
+    cout << endl;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
     string primo_giocatore = "squadra1 (TU)"; // Variabile per tracciare chi deve tirare per primo
 
     // --- CICLO PRINCIPALE DEL GIOCO ---
-    // Continua finché entrambi i giocatori hanno carte in mano
+    // Continua finché tutti i giocatori hanno 3 carte in mano
     while (!mano1.empty() && !mano2.empty() && !mano3.empty() && !mano4.empty()) {
+    	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
         cout << "\n--- Nuova mano ---\n";
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
         cout << "Primo a giocare: " << primo_giocatore << " la BRISCOLA è : " << BRISCOLA << endl;
-
         // MOSTRA LA MANO ALL'UTENTE
         cout << "La tua mano: \n";
         for (int i = 0; i < mano1.size(); ++i) {
@@ -250,16 +259,19 @@ cout << "                                                                       
 cout << "                                                                                                                         " <<endl;
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         cout << "\n1. Singolo ===> 1 vs 1" << endl;
+        cout << " ---------------------- "<<endl;
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
         cout << "2. Doppio  ===> 2 vs 2" << endl;
+        cout << " ---------------------- "<<endl;
         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         cout << "3. Cinque  ===> 2 vs 3 (a chiamata)" << endl;
-        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+        cout << " ---------------------- "<<endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
         cout << "4. Esci" << endl;
-        
+        cout << " ---------------------- "<<endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         cout << "\nINSERISCI LA MODALITA' DI GIOCO: ";
         cin >> scelta;
-
         // Gestione scelta
         switch (scelta) {
             case 1:
@@ -272,14 +284,18 @@ cout << "                                                                       
                 cout<<"\nSELEZIONA LA DIFFICOLTA: "<<endl;
                 cin>>scelta; 
 				if(scelta==1){
-					cout<<"Hai scelto la difficolta facile, buona partita! "<<endl;                        
-				duecontroduefacile();
+					SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+					cout<<"Hai scelto la difficolta FACILE, buona partita! "<<endl; 
+					SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);                     
+				generaMazzo();
                 system("pause"); // Per vedere il messaggio prima del refresh
                 break;
             }
             case 2:
+            	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
                 cout << "Hai scelto l'opzione 2, briscola 2 contro 2" << endl;
-                generaMazzo();
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+                duecontroduefacile();
                 system("pause");
                 break;
             case 3:
