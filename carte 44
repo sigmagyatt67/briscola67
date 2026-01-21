@@ -1,0 +1,103 @@
+#include <iostream>
+#include <windows.h>
+#include <cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector> 
+#include <string>
+#include <algorithm> 
+#include <ctime>
+#include <random>
+#include <windows.h>
+
+using namespace std;
+int main(){
+
+
+SetConsoleOutputCP(CP_UTF8);             cout <<  "      .-------------------------.           " << endl;
+                                         cout <<  "      |  1                      |           " << endl;
+                                         cout <<  u8"      |            \u25A0            |     " << endl;
+                                         cout <<  "      |           / \\           |           " << endl;
+                                         cout <<  "      |          /   \\          |           " << endl;
+                                         cout <<  "      |         |     |         |           " << endl;
+                                         cout <<  "      |        /       \\        |           " << endl;
+                                         cout <<  "      |     __/  (   )  \\__     |           " << endl;
+                                         cout <<  u8"      |    |    (  \u2666  )    |    |           " << endl;
+                                         cout <<  "      |    |_____(___)_____|    |           " << endl;
+                                         cout <<  "      |    |_______________|    |           " << endl;
+                                         cout <<  "      |    \\               /    |           " << endl;
+                                         cout <<  "      |     \\             /     |           " << endl;
+                                         cout <<  "      |      \\           /      |           " << endl;
+                                         cout <<  "      |       \\         /       |           " << endl;
+                                         cout <<  "      |       /         \\       |           " << endl;
+                                         cout <<u8"      |      /___________\\      |" << endl;
+                                         cout <<u8"      |     \u25CF             \u25CF   1 |           " << endl;
+                                         cout <<  "      \\_________________________/           " << endl;
+
+    cout << u8"Picche: \u2660" << endl; // ?
+    cout << u8"Cuori:  \u2665" << endl; // ?
+    cout << u8"Quadri: \u2666" << endl; // ?
+    cout << u8"Fiori:  \u2663" << endl; // ?
+
+                                         cout <<  "      .-------------------------.            " << endl;
+                                         cout <<  "      |  2                      |            " << endl;
+                                         cout <<  u8"      |           ________      |          " << endl;
+                                         cout <<  "      |          /       /      |            " << endl;
+                                         cout <<  "      |     __  /       /__     |            " << endl;
+                                         cout <<  "      |     \\ \\ |       / /     |          " << endl;
+                                         cout <<  "      |      \\ \\|      / /      |          " << endl;
+                                         cout <<  "      |       \\         |       |           " << endl;
+                                         cout <<  u8"      |        \\        |       |         " << endl;
+                                         cout <<  u8"      |         |  (\u25CF)  |       |     " << endl;
+                                         cout <<  "      |      __ |       |       |            " << endl;
+                                         cout <<  "      |      \\  \\       |       |          " << endl;
+                                         cout <<  "      |       \\  \\      |__     |          " << endl;
+                                         cout <<  "      |        \\        / /     |           " << endl;
+                                         cout <<  "      |         |        /      |            " << endl;
+                                         cout <<  "      |_________|       |_______|            " << endl;
+                                         cout <<u8"      | \u2663   \u2663   |_______|  \u2663    |            " << endl;
+                                         cout <<u8"      |  \u2663   \u2663            \u2663    2|            " << endl;
+                                         cout <<  "      \\_________________________/           " << endl;
+
+
+                                         cout <<  "      .-------------------------.            " << endl;
+                                         cout <<  "      |  3         \u25CF            |            " << endl;
+                                         cout <<  "      |           / \\           |          " << endl;
+                                         cout <<  "      |          /   \\          |            " << endl;
+                                         cout <<  "      |         |     |         |            " << endl;
+                                         cout <<  "      |         |     |         |          " << endl;
+                                         cout <<  "      |         |     |         |          " << endl;
+                                         cout <<  "      |         | (\u25CB) |         |           " << endl;
+                                         cout <<  "      |         | / \\ |         |         " << endl;
+                                         cout <<  "      |         | \\ / |         |     " << endl;
+                                         cout <<  "      |       __|     |__       |            " << endl;
+                                         cout <<u8"      |     \u25A0|___     ___|\u25A0     |          " << endl;
+                                         cout <<  "      |          |   |          |          " << endl;
+                                         cout <<  "      |          |   |          |           " << endl;
+                                         cout <<  "      |          |   |          |            " << endl;
+                                         cout <<  "      |          |___|          |            " << endl;
+                                         cout <<u8"      |            \u25BC            |            " << endl;
+                                         cout <<u8"      |                        3|            " << endl;
+                                         cout <<  "      \\_________________________/           " << endl;
+                                         
+                                         cout <<  "      .-------------------------.            " << endl;
+                                         cout <<  "      |4 __        ____       __|            " << endl;
+                                         cout <<u8"      | /  \\     /   \u25E6 \\_    /  \|          " << endl;
+                                         cout <<  "      |    |    |     ___\\  |    |            " << endl;
+                                         cout <<  "      |  __/   /     |     \    __ |            " << endl;
+                                         cout <<  "      | |     |       \\       | |          " << endl;
+                                         cout <<  "      | \\_____/        \\______/ |          " << endl;
+                                         cout <<  "      |                         |           " << endl;
+                                         cout <<  "      |                         |         " << endl;
+                                         cout <<  "      |                         |     " << endl;
+                                         cout <<  "      |                         |            " << endl;
+                                         cout <<u8"      |      /\\         /\\      |          " << endl;
+                                         cout <<  "      |     /  |       |  \\     |          " << endl;
+                                         cout <<  "      |  /|/   |       |   \\|\\  |           " << endl;
+                                         cout <<  "      | /      |       |      \\ |            " << endl;
+                                         cout <<  "      |        \\_______/        |            " << endl;
+                                         cout <<u8"      |                         |            " << endl;
+                                         cout <<u8"      |                        4|            " << endl;
+                                         cout <<  "      \\_________________________/           " << endl;
+std::cout << u8" \u2605" << std::endl;
+} 
