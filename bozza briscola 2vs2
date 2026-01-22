@@ -154,17 +154,29 @@ srand(time(NULL));
         int puntiQuarta = puntiDaValore(cartaQuarta.value);
 
 
-        string vincitore;
+        string vincitore, secondogiocare, terzogiocare, quartogiocare;
         
         // Caso 1: Stesso seme
         if (cartaPrima.segno == cartaSeconda.segno && cartaPrima.segno == cartaTerza.segno && cartaPrima.segno == cartaQuarta.segno){
             // Vince chi ha più punti (se sono uguali, vince chi ha giocato per primo)
-            if (puntiSeconda > puntiPrima || puntiTerza > puntiSeconda || puntiQuarta > puntiTerza) {
-                vincitore = primoagiocare ? "squadra2" : "squadra1 (TU)";
-            } else {
-                vincitore = primo_giocatore;
+            if (puntiPrima > puntiSeconda && puntiPrima> puntiTerza && puntiPrima>puntiQuarta ){
+                vincitore = primoagiocare;
+				cout<<"squadra1 (TU)";
+            } 
+			else if(puntiPrima< puntiSeconda && puntiSeconda> puntiTerza && puntiSeconda>puntiQuarta) {
+                vincitore = secondogiocare;
+				cout<<"squadra2";
             }
-        } else {
+            else if(puntiPrima< puntiSeconda && puntiSeconda< puntiTerza && puntiTerza>puntiQuarta) {
+                vincitore = terzogiocare;
+				cout<<"squadra1 (TU)";
+        }
+			else if(puntiPrima< puntiSeconda && puntiSeconda< puntiTerza && puntiTerza<puntiQuarta) {
+                vincitore = quartogiocare;
+				cout<<"squadra2";
+            }   
+            }
+        } else if{
             // Caso 2: Semi diversi
             if (primabriscola && !secondabriscola) {
                 // Il primo ha giocato briscola, vince lui
