@@ -70,8 +70,8 @@ SetConsoleOutputCP(CP_UTF8);             cout <<  "      .----------------------
                                          cout <<  "      |         | (#) |         |           " << endl;
                                          cout <<  "      |         | / \\ |         |         " << endl;
                                          cout <<  "      |         | \\ / |         |     " << endl;
-                                         cout <<  "      |       __|     |__       |            " << endl;
-                                         cout <<u8"      |     <|___     ___|>     |          " << endl;
+                                         cout <<  "      |       __|_____|__       |            " << endl;
+                                         cout <<u8"      |     <|___________|>     |          " << endl;
                                          cout <<  "      |          |   |          |          " << endl;
                                          cout <<  "      |          |   |          |           " << endl;
                                          cout <<  "      |          |   |          |            " << endl;
