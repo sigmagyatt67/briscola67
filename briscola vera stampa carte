@@ -28,8 +28,22 @@ int puntiDaValore(int v) {
 }
 
 /*############################################################################################################*/
+// Inserisce il numero della carta dentro l'ASCII art
+string inserisciNumero(const string &ascii, int numero) {
+    string risultato;
+    string num = to_string(numero);
 
-// MODIFICATA: normalizzazione dei semi per evitare problemi UTF-8/locale
+    // Copia riga per riga e sostituisce {NUM}
+    size_t pos = 0, start = 0;
+    while ((pos = ascii.find("{NUM}", start)) != string::npos) {
+        risultato += ascii.substr(start, pos - start);
+        risultato += num; 
+        start = pos + 5; // lunghezza "{NUM}"
+    }
+    risultato += ascii.substr(start);
+    return risultato;
+}
+/*############################################################################################################*/
 void stampaCarta(const mydata &c, 
                  const string &cartaCoppe, 
                  const string &cartaBastoni,
@@ -39,19 +53,19 @@ void stampaCarta(const mydata &c,
     string s = c.segno;
     for (auto &ch : s) ch = tolower(ch);
 
-    if (s == "coppe") {
-        cout << cartaCoppe << endl;
-    } 
-    else if (s == "bastoni") {
-        cout << cartaBastoni << endl;
-    }
-    else if (s == "spade") {
-        cout << cartaSpade << endl;
-    }
-    else if (s == "denari") {
-        cout << cartaDenari << endl;
-    }
+    string art;
+
+    if (s == "coppe") art = cartaCoppe;
+    else if (s == "bastoni") art = cartaBastoni;
+    else if (s == "spade") art = cartaSpade;
+    else if (s == "denari") art = cartaDenari;
+
+    // Inserisce il numero dentro l'ASCII art
+    art = inserisciNumero(art, c.value);
+
+    cout << art << endl;
 }
+
 
 /*############################################################################################################*/
 
@@ -163,7 +177,7 @@ int unocontrounomedio(const string &cartaCoppe, const string &cartaBastoni,
             int indice_cartabot = scegliScartinaBot(mano2);
             cartaPrima = mano2[indice_cartabot];
             mano2.erase(mano2.begin() + indice_cartabot);
-            cout << "Il bot gioca: "; 
+            cout << "Il bot gioca: \n"; 
             stampaCarta(cartaPrima, cartaCoppe, cartaBastoni, cartaSpade, cartaDenari); 
             cout << " che vale " << puntiDaValore(cartaPrima.value) << " punti " << endl;
 
@@ -366,8 +380,8 @@ int main(){
     SetConsoleOutputCP(CP_UTF8);
 
     // carta1 = COPPE
-    string carta1 = u8R"(      .-------------------------.
-      |  1                      |
+    string carta1 = u8R"(  .-------------------------.
+      |   {NUM}                     |
       |            o            |
       |           / \           |
       |          /   \          |
@@ -383,13 +397,14 @@ int main(){
       |       \         /       |
       |       /         \       |
       |      /___________\      |
-      |     o             o   1 |
+      |     o             o     |
+      |                      {NUM}  |
       \_________________________/
 )";
 
     // carta2 = BASTONI
-    string carta2 = u8R"(      .-------------------------.
-      |  2                      |
+    string carta2 = u8R"(  .-------------------------.
+      |   {NUM}                     |
       |           ________      |
       |          /       /      |
       |     __  /       /__     |
@@ -405,13 +420,14 @@ int main(){
       |         |        /      |
       |_________|       |_______|
       | ^   ^   |_______|  ^  ^ |
-      |  ^   ^            ^    2|
+      |  ^   ^            ^     |
+      |                     {NUM}   |
       \_________________________/
 )";
 
     // carta3 = SPADE
-    string carta3 = u8R"(      .-------------------------.
-      |  3         ^            |
+    string carta3 = u8R"(  .-------------------------.
+      |   {NUM}        ^            |
       |           / \           |
       |          /   \          |
       |         |     |         |
@@ -427,14 +443,15 @@ int main(){
       |          |   |          |
       |          |___|          |
       |            o            |
-      |                        3|
+      |                     {NUM}   |
       \_________________________/
 )";
 
     // carta4 = DENARI
-    string carta4 = u8R"(      .-------------------------.
-      |4 __        ____       __|
-      | /  \     /   o \_    /  \|
+    string carta4 = u8R"(  .-------------------------.
+      |  {NUM}                      |
+      | __        ____       __ |
+      |/  \     /   o \_    /  \|
       |    |    |     ___\  |   |
       |  __/   /     |       \  |
       | |     |       \       | |
@@ -449,7 +466,7 @@ int main(){
       | /      |       |      \ |
       |        \_    _/         |
       |          \  /           |
-      |        __/  \__        4|
+      |        __/  \__     {NUM}   |
       \_________________________/
 )";
 
@@ -469,18 +486,16 @@ int main(){
         cout << "                                 {   Elia cortesi; Nicolo' Bedeschi; Gabriele Romano  }" << endl;
         cout << "                                 {____________________________________________________} "<< endl;
  
-        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-        cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_" << endl;
-
-        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-        cout << "    _                  ____  ______ _____  _____  _____  _____   _                          .-------.                   " << endl;
-        cout << "   | |        /\\      |  _ \\|  __  \\|_   _|/ ____|/ ____ / __  \\ | |          /\\             |67.--. |                   " << endl;
-        cout << "   | |       /  \\     | |_) | |__) | | |  | (___ | |   | |  | | | |         /  \\            | (\\/)  |                  " << endl;
-        cout << "   | |      / /\\ \\    |  _ <|  _  /  | |  |\\___  \\| |     |  | | | |        / /\\ \\           | :\\/:  |                   " << endl;
-        cout << "   | |____ / ____ \\   | |_) | | \\ \\ _| |_ ____) || |___| |__| | | |____   / ____ \\          | '--'67|                   " << endl;
-        cout << "   |______/_|______/_/    \\_\\  |____/|_|  \\_\\_____|_____/ \\_____|\\____/  |______| /_/    \\_\\         `-------'                   " << endl;
-        cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_" << endl;
-    
+           SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+ cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_" << endl;
+ cout << "    _                  ____  ______ _____  _____  _____  _____   _                          .-------.                   " << endl;
+ cout << "   | |        /\\      |  _ \\|  __  \|_   _|/ ____|/ ____ / __  \\ | |          /\\             |67.--. |                   " << endl;
+ cout << "   | |       /  \\     | |_) | |__) | | |  | (___ | |   | |  | | | |         /  \\            | (\\/)  |                  " << endl;
+ cout << "   | |      / /\\ \\    |  _ <|  _  /  | |  |\___  \\| |     |  | | | |        / /\\ \\\           | :\\/:  |                   " << endl;
+ cout << "   | |____ / ____ \\   | |_) | | \\ \\ _| |_ ____) || |___| |__| | | |____   / ____ \\\          | '--'67|                   " << endl;
+ cout << "   |______/_/    \\_\\  |____/|_|  \\_\\_\_____|_____/\\_____|\\_____/ |______| /_/    \\_\\         `-------'                   " << endl;
+ cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-      " << endl;
+ 
         cout << "\n" << endl;
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         cout << "\n1. Singolo ===> 1 vs 1" << endl;
