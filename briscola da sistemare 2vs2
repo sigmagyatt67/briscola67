@@ -1,0 +1,323 @@
+#include <iostream>
+#include <windows.h>
+#include <cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector> 
+#include <string>
+#include <algorithm> 
+#include <ctime>
+#include <random> 
+// Aggiunta per il supporto a mt19937
+
+using namespace std;
+
+// Struttura che rappresenta una singola carta da gioco
+struct mydata {
+    int value;    // Il numero della carta (da 1 a 10)
+    string segno; // Il seme (coppe, denari, spade, bastoni)
+};
+
+// Funzione per calcolare i punti di Briscola in base al valore nominale della carta
+int puntiDaValore(int v) {
+    if (v == 1) return 11;  // L'Asso vale 11
+    if (v == 3) return 10;  // Il Tre vale 10
+    if (v == 10) return 4;  // Il Re vale 4
+    if (v == 9) return 3;   // Il Cavallo vale 3
+    if (v == 8) return 2;   // Il Fante vale 2
+    return 0;               // Tutte le altre (scartine) valgono 0
+}
+/*#########################################################################################################################################################################
+#########################################################################################################################################################################*/
+// Funzione di utilità per stampare a video il nome di una carta
+void stampaCarta(const mydata &c) {
+    cout << c.value << " di " << c.segno;
+}
+/*#########################################################################################################################################################################
+#########################################################################################################################################################################*/
+vector<mydata> generaMazzo() {
+    vector<mydata> mazzo;
+    
+srand(time(NULL));
+
+    for(int a = 1; a <= 10; a++) mazzo.push_back({a, "Denari"});
+    for(int a = 1; a <= 10; a++) mazzo.push_back({a, "Bastoni"});
+    for(int a = 1; a <= 10; a++) mazzo.push_back({a, "Spade"});
+    for(int a = 1; a <= 10; a++) mazzo.push_back({a, "Coppe"});
+
+    random_device rd;
+    mt19937 g(rand()%1000);
+    shuffle(mazzo.begin(), mazzo.end(), g);
+
+    return mazzo;
+}
+/*#########################################################################################################################################################################
+#########################################################################################################################################################################*/
+ int duecontroduefacile(){
+ 
+ srand(time(NULL));
+ 
+	setlocale(LC_ALL, "ita");
+ 	
+ 	int puntisq1 = 0; // Squadra 1: TU (0) + BOT COMPAGNO (2)
+	int puntisq2 = 0; // Squadra 2: BOT NEMICO (1) + BOT NEMICO (3)
+ 	
+    vector<mydata> mazzo = generaMazzo();
+ 
+    // --- DISTRIBUZIONE INIZIALE ---
+    vector<mydata> mano1, mano2, mano3, mano4; // Giocatori: 0=TU, 1=BOT_NEMICO, 2=BOT_COMPAGNO, 3=BOT_NEMICO
+    for (int i = 0; i < 3; ++i) {
+        mano1.push_back(mazzo.back()); mazzo.pop_back();
+        mano2.push_back(mazzo.back()); mazzo.pop_back();
+        mano3.push_back(mazzo.back()); mazzo.pop_back();
+        mano4.push_back(mazzo.back()); mazzo.pop_back();
+    }
+
+    // --- DETERMINAZIONE BRISCOLA ---
+    mydata cartaBriscola;
+    if (!mazzo.empty()) {
+        cartaBriscola = mazzo.back();
+    }
+    string BRISCOLA = cartaBriscola.segno;
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+    cout << "BRISCOLA: ";
+    stampaCarta(cartaBriscola);
+    cout << endl;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+
+    int primoGiocatore = 0; // 0=TU, 1=BOT_NEMICO, 2=BOT_COMPAGNO, 3=BOT_NEMICO
+
+    // --- CICLO PRINCIPALE DEL GIOCO ---
+    while (!mano1.empty() && !mano2.empty() && !mano3.empty() && !mano4.empty()) {
+    	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+        cout << "\n--- Nuova mano ---\n";
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+        
+        vector<string> nomiGiocatori = {"TU (Squadra 1)", "BOT NEMICO (Squadra 2)", "BOT COMPAGNO (Squadra 1)", "BOT NEMICO (Squadra 2)"};
+        cout << "Primo a giocare: " << nomiGiocatori[primoGiocatore] << " | BRISCOLA: " << BRISCOLA << endl;
+        
+        // MOSTRA LA MANO ALL'UTENTE
+        cout << "La tua mano: \n";
+        for (int i = 0; i < mano1.size(); ++i) {
+            cout << i << " ) "; 
+            stampaCarta(mano1[i]); 
+            cout << " vale " << puntiDaValore(mano1[i].value) << " punti " << endl;
+        } 
+
+        // Ordine di gioco: sempre orario partendo da primoGiocatore
+        vector<int> ordineGioco;
+        for (int i = 0; i < 4; ++i) {
+            ordineGioco.push_back((primoGiocatore + i) % 4);
+        }
+
+        // Carte giocate: indice = posizione nell'ordine di gioco
+        vector<mydata> carteGiocate(4);
+        vector<int> giocatoriIndici(4);
+
+        // --- FASE DI GIOCATA ---
+        for (int turno = 0; turno < 4; ++turno) {
+            int idGiocatore = ordineGioco[turno];
+            giocatoriIndici[turno] = idGiocatore;
+            
+            if (idGiocatore == 0) {
+                // L'UTENTE GIOCA
+                int indice_carta;
+                do {
+                    cout << "Scegli che carta giocare (0-" << mano1.size()-1 << "): "; 
+                    cin >> indice_carta;
+                } while (indice_carta < 0 || indice_carta >= (int)mano1.size());
+                
+                carteGiocate[turno] = mano1[indice_carta];
+                mano1.erase(mano1.begin() + indice_carta);
+            } else if (idGiocatore == 1) {
+                // BOT NEMICO 1
+                int idx = rand() % mano2.size();
+                carteGiocate[turno] = mano2[idx];
+                mano2.erase(mano2.begin() + idx);
+            } else if (idGiocatore == 2) {
+                // BOT COMPAGNO
+                int idx = rand() % mano3.size();
+                carteGiocate[turno] = mano3[idx];
+                mano3.erase(mano3.begin() + idx);
+            } else if (idGiocatore == 3) {
+                // BOT NEMICO 2
+                int idx = rand() % mano4.size();
+                carteGiocate[turno] = mano4[idx];
+                mano4.erase(mano4.begin() + idx);
+            }
+            
+            cout << nomiGiocatori[idGiocatore] << " gioca: ";
+            stampaCarta(carteGiocate[turno]);
+            cout << " (" << puntiDaValore(carteGiocate[turno].value) << " punti)" << endl;
+        }
+
+        // --- LOGICA VINCITORE MANO ---
+        string semeAperto = carteGiocate[0].segno;
+        int indiceVincitore = 0;
+        int maxPunti = puntiDaValore(carteGiocate[0].value);
+        bool c0Briscola = (carteGiocate[0].segno == BRISCOLA);
+
+        // Verifica le altre carte
+        for (int i = 1; i < 4; ++i) {
+            int punti = puntiDaValore(carteGiocate[i].value);
+            bool carteIBriscola = (carteGiocate[i].segno == BRISCOLA);
+
+            // Se la carta è briscola e non lo era la precedente vincente, vince
+            if (carteIBriscola && !c0Briscola) {
+                c0Briscola = true;
+                maxPunti = punti;
+                indiceVincitore = i;
+            }
+            // Se sono entrambe briscola/stesso seme, vince quella con più punti
+            else if ((carteIBriscola && c0Briscola) || 
+                     (carteGiocate[i].segno == semeAperto && carteGiocate[indiceVincitore].segno == semeAperto)) {
+                if (punti > maxPunti) {
+                    maxPunti = punti;
+                    indiceVincitore = i;
+                }
+            }
+        }
+
+        int vincitore = giocatoriIndici[indiceVincitore]; // Indice del giocatore che vince
+
+        // --- AGGIORNAMENTO PUNTEGGI ---
+        int puntiMano = 0;
+        for (int i = 0; i < 4; ++i) {
+            puntiMano += puntiDaValore(carteGiocate[i].value);
+        }
+
+        if (vincitore == 0 || vincitore == 2) {
+            // Vince squadra 1
+            puntisq1 += puntiMano;
+            cout << "La mano è vinta da SQUADRA 1 (" << nomiGiocatori[vincitore] << "). Punti: " << puntiMano << endl;
+        } else {
+            // Vince squadra 2
+            puntisq2 += puntiMano;
+            cout << "La mano è vinta da SQUADRA 2 (" << nomiGiocatori[vincitore] << "). Punti: " << puntiMano << endl;
+        }
+
+        // --- PESCAGGIO NUOVE CARTE (ordine orario dal vincitore) ---
+        if (!mazzo.empty()) {
+            // Il vincitore pesca per primo, poi gli altri in ordine orario
+            for (int i = 0; i < 4; ++i) {
+                int giocatore = (vincitore + i) % 4;
+                if (!mazzo.empty()) {
+                    mydata carta = mazzo.back(); mazzo.pop_back();
+                    if (giocatore == 0) mano1.push_back(carta);
+                    else if (giocatore == 1) mano2.push_back(carta);
+                    else if (giocatore == 2) mano3.push_back(carta);
+                    else if (giocatore == 3) mano4.push_back(carta);
+                }
+            }
+        }
+
+        // Il vincitore della mano sarà il primo a giocare nel turno successivo
+        primoGiocatore = vincitore;
+        cout << "Punteggio attuale = Squadra 1: " << puntisq1 << " | Squadra 2: " << puntisq2 << endl;
+    }
+
+    // --- FINE PARTITA ---
+    cout << "Partita terminata. Punteggio finale = Squadra 1: " << puntisq1 << " | Squadra 2: " << puntisq2 << endl;
+    return 0;
+}
+
+/*###############################################################TITOLO###################################################################################################
+#########################################################################################################################################################################*/
+ 
+ int main(){
+ 	setlocale(LC_ALL, " ita ");
+ 	   int scelta = 0;
+    system("mode con: cols=120 lines=40");
+    system("chcp 65001 > nul");
+
+    do {
+       	system("CLS");
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		// 1. Mostra il menu all'utente
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+ 
+ cout << "                                  ____________________________________________________" << endl;
+ cout << "                                 {                    Briscola                        }" << endl;                                                                                                                                               
+ cout << "                                 {   Elia cortesi; Nicolo' Bedeschi; Gabriele Romano  }" << endl;
+ cout << "                                 {____________________________________________________} "<< endl;
+ 
+     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+ cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_" << endl;
+ cout << "    _                  ____  ______ _____  _____  _____  _____   _                          .-------.                   " << endl;
+ cout << "   | |        /\\      |  _ \\|  __  \|_   _|/ ____|/ ____ / __  \\ | |          /\\             |67.--. |                   " << endl;
+ cout << "   | |       /  \\     | |_) | |__) | | |  | (___ | |   | |  | | | |         /  \\            | (\\/)  |                  " << endl;
+ cout << "   | |      / /\\ \\    |  _ <|  _  /  | |  |\___  \\| |     |  | | | |        / /\\ \\\           | :\\/:  |                   " << endl;
+ cout << "   | |____ / ____ \\   | |_) | | \\ \\ _| |_ ____) || |___| |__| | | |____   / ____ \\\          | '--'67|                   " << endl;
+ cout << "   |______/_/    \\_\\  |____/|_|  \\_\\_\_____|_____/\\_____|\\_____/ |______| /_/    \\_\\         `-------'                   " << endl;
+ cout << "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-      " << endl;
+	
+	
+		//std::cout << "---| LA BRISCOLA |---" << std::endl;
+cout << "                                                                                                                         " <<endl;
+cout << "                                                                                                                         " <<endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        cout << "\n1. Singolo ===> 1 vs 1" << endl;
+        cout << " ---------------------- "<<endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+        cout << "2. Doppio  ===> 2 vs 2" << endl;
+        cout << " ---------------------- "<<endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        cout << "3. Cinque  ===> 2 vs 3 (a chiamata)" << endl;
+        cout << " ---------------------- "<<endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+        cout << "4. Esci" << endl;
+        cout << " ---------------------- "<<endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        cout << "\nINSERISCI LA MODALITA' DI GIOCO: ";
+        cin >> scelta;
+        // Gestione scelta
+        switch (scelta) {
+            case 1:
+                cout << "Hai scelto l'Opzione 1, briscola 1 contro 1" << endl;
+                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        cout << "\n1. FACILE" << endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+        cout << "2. DIFFICILE" << endl;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+                cout<<"\nSELEZIONA LA DIFFICOLTA: "<<endl;
+                cin>>scelta; 
+				if(scelta==1){
+					SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+					cout<<"Hai scelto la difficolta FACILE, buona partita! "<<endl; 
+					SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);                     
+				generaMazzo();
+                system("pause"); // Per vedere il messaggio prima del refresh
+                break;
+            }
+            case 2:
+            	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+                cout << "Hai scelto l'opzione 2, briscola 2 contro 2" << endl;
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+                duecontroduefacile();
+                system("pause");
+                break;
+            case 3:
+                cout << "Hai scelto l'opzione 3, briscola a chiamata" << endl;
+                generaMazzo();
+                system("pause");
+                break;
+            case 4:
+                cout << "Uscita..." << endl;
+                break;
+            case 67:
+            	cout << "Hai scoperto l'easter egg, sei un sigma diddy blud ohio 6767676767676767"<<endl;
+            	generaMazzo();
+            	system("pause");
+            	break;
+            default:
+                cout << "Scelta non valida!" << endl;
+                system("pause");
+        }
+
+    } while (scelta != 4); // Esce quando premi 4
+
+    return 0;
+}
+/*#########################################################################################################################################################################
+###############################################################*/
