@@ -106,9 +106,10 @@ srand(time(NULL));
             cout << " vale " << puntiDaValore(mano1[i].value) << " punti " << endl;
         } 
 
-        mydata cartaPrima, cartaSeconda, cartaTerza, cartaQuarta;
+      
         bool primoagiocare = (primo_giocatore == "squadra1 (TU)");
-
+        
+         
         // --- FASE DI GIOCATA ---
         if (primoagiocare) {
             // L'UTENTE GIOCA PER PRIMO
@@ -143,19 +144,6 @@ srand(time(NULL));
             cout << " che vale " << puntiDaValore(cartaQuarta.value) << " punti " << endl;
     }
 
-        // --- LOGICA DI ASSEGNAZIONE VINCITORE MANO ---
-        bool primabriscola = (cartaPrima.segno == BRISCOLA);
-        bool secondabriscola = (cartaSeconda.segno == BRISCOLA);
-        bool terzabriscola = (cartaTerza.segno == BRISCOLA);
-        bool quartabriscola = (cartaQuarta.segno == BRISCOLA);
-        int puntiPrima = puntiDaValore(cartaPrima.value);
-        int puntiSeconda = puntiDaValore(cartaSeconda.value); 
-        int puntiTerza = puntiDaValore(cartaTerza.value);
-        int puntiQuarta = puntiDaValore(cartaQuarta.value);
-
-
-        string vincitore, secondogiocare, terzogiocare, quartogiocare;
-        
         // Caso 1: Stesso seme
         if (cartaPrima.segno == cartaSeconda.segno && cartaPrima.segno == cartaTerza.segno && cartaPrima.segno == cartaQuarta.segno){
             // Vince chi ha più punti (se sono uguali, vince chi ha giocato per primo)
@@ -165,37 +153,81 @@ srand(time(NULL));
             } 
 			else if(puntiPrima< puntiSeconda && puntiSeconda> puntiTerza && puntiSeconda>puntiQuarta) {
                 vincitore = secondogiocare;
-				cout<<"squadra2";
+				cout<<"squadra2 BOT 1";
             }
             else if(puntiPrima< puntiSeconda && puntiSeconda< puntiTerza && puntiTerza>puntiQuarta) {
                 vincitore = terzogiocare;
-				cout<<"squadra1 (TU)";
+				cout<<"BOT (compagno)";
         }
 			else if(puntiPrima< puntiSeconda && puntiSeconda< puntiTerza && puntiTerza<puntiQuarta) {
                 vincitore = quartogiocare;
-				cout<<"squadra2";
+				cout<<"squadra2 BOT 2";
             }   
             }
-        } else if{
-            // Caso 2: Semi diversi
-            if (primabriscola && !secondabriscola) {
-                // Il primo ha giocato briscola, vince lui
-                vincitore = primo_giocatore;
-            } else if (!primabriscola && secondabriscola) {
-                // Il secondo ha risposto con briscola
-                // Nota: Nel tuo codice vince solo se ha più punti della prima (regola insolita per la briscola classica)
-                if (puntiSeconda > puntiPrima) {
-                    vincitore = primoagiocare ? "squadra2" : "squadra1 (TU)";
-                } else {
-                    vincitore = primo_giocatore;
-                }
-            } else {
-                // Nessuno ha giocato briscola e i semi sono diversi: vince il primo di mano
-                vincitore = primo_giocatore;
-            }
-        }
+          
+if (primabriscola || secondabriscola || terzabriscola || quartabriscola) {
+
+    int maxPunti = -1;
+
+    if (primabriscola && puntiPrima > maxPunti) {
+        maxPunti = puntiPrima;
+        indiceVincitore = 0;
+    }
+    if (secondabriscola && puntiSeconda > maxPunti) {
+        maxPunti = puntiSeconda;
+        indiceVincitore = 1;
+    }
+    if (terzabriscola && puntiTerza > maxPunti) {
+        maxPunti = puntiTerza;
+        indiceVincitore = 2;
+    }
+    if (quartabriscola && puntiQuarta > maxPunti) {
+        indiceVincitore = 3;
+    }
+}
+
+else {
+    string semeInizio = cartaPrima.segno;
+    int maxPunti = puntiPrima;
+    indiceVincitore = 0;
+
+    if (cartaSeconda.segno == semeInizio && puntiSeconda > maxPunti) {
+        maxPunti = puntiSeconda;
+        indiceVincitore = 1;
+    }
+    if (cartaTerza.segno == semeInizio && puntiTerza > maxPunti) {
+        maxPunti = puntiTerza;
+        indiceVincitore = 2;
+    }
+    if (cartaQuarta.segno == semeInizio && puntiQuarta > maxPunti) {
+        indiceVincitore = 3;
+    }
+}
+
+if (indiceVincitore == 0 || indiceVincitore == 2) {
+    vincitore = "squadra1 (TU)";
+} else {
+    vincitore = "squadra2";
+}
+
+        // --- LOGICA VINCITORE MANO (CORRETTA) ---
+
+bool primabriscola  = (cartaPrima.segno  == BRISCOLA);
+bool secondabriscola = (cartaSeconda.segno == BRISCOLA);
+bool terzabriscola  = (cartaTerza.segno  == BRISCOLA);
+bool quartabriscola = (cartaQuarta.segno == BRISCOLA);
+
+int puntiPrima  = puntiDaValore(cartaPrima.value);
+int puntiSeconda = puntiDaValore(cartaSeconda.value);
+int puntiTerza  = puntiDaValore(cartaTerza.value);
+int puntiQuarta = puntiDaValore(cartaQuarta.value);
+
+string vincitore;
+int indiceVincitore = 0; // 0=prima 1=seconda 2=terza 3=quarta
+
 
         // --- AGGIORNAMENTO PUNTEGGI ---
+        
         int puntiMano = puntiPrima + puntiSeconda + puntiTerza + puntiQuarta;
         if (vincitore == "squadra2") {
             puntisq2 += puntiMano;
