@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <ctime>
 #include <random>
+#include <sstream>
 
 using namespace std;
 
@@ -43,6 +44,49 @@ string inserisciNumero(const string &ascii, int numero) {
     risultato += ascii.substr(start);
     return risultato;
 }
+/*############################################################################################################*/
+vector<string> splitRighe(const string &ascii) {
+    vector<string> righe;
+    string r;
+    stringstream ss(ascii);
+    while (getline(ss, r)) righe.push_back(r);
+    return righe;
+}
+
+void stampaManoAffiancata(const vector<mydata> &mano,
+                          const string &cartaCoppe,
+                          const string &cartaBastoni,
+                          const string &cartaSpade,
+                          const string &cartaDenari)
+{
+    vector<vector<string>> blocchi;
+
+    for (auto &c : mano) {
+        string art;
+
+        string s = c.segno;
+        for (auto &ch : s) ch = tolower(ch);
+
+        if (s == "coppe") art = cartaCoppe;
+        else if (s == "bastoni") art = cartaBastoni;
+        else if (s == "spade") art = cartaSpade;
+        else if (s == "denari") art = cartaDenari;
+
+        art = inserisciNumero(art, c.value);
+
+        blocchi.push_back(splitRighe(art));
+    }
+
+    int righe = blocchi[0].size();
+
+    for (int r = 0; r < righe; r++) {
+        for (int i = 0; i < blocchi.size(); i++) {
+            cout << blocchi[i][r] << "   ";
+        }
+        cout << "\n";
+    }
+}
+
 /*############################################################################################################*/
 void stampaCarta(const mydata &c, 
                  const string &cartaCoppe, 
@@ -146,12 +190,9 @@ int unocontrounomedio(const string &cartaCoppe, const string &cartaBastoni,
         cout << "\n--- Nuova mano ---\n";
         cout << "Primo a giocare: " << primo_giocatore << " la BRISCOLA è : " << BRISCOLA << endl;
 
-        cout << "La tua mano: \n";
-        for (int i = 0; i < mano1.size(); ++i) {
-            cout << i << " ) "; 
-            stampaCarta(mano1[i], cartaCoppe, cartaBastoni, cartaSpade, cartaDenari); 
-            cout << " vale " << puntiDaValore(mano1[i].value) << " punti " << endl;
-        } 
+        cout << "La tua mano:\n";
+        stampaManoAffiancata(mano1, cartaCoppe, cartaBastoni, cartaSpade, cartaDenari);
+
 
         mydata cartaPrima, cartaSeconda;
         bool primoagiocare = (primo_giocatore == "squadra1");
@@ -274,12 +315,9 @@ int unocontrounofacile(const string &cartaCoppe, const string &cartaBastoni,
         cout << "\n--- Nuova mano ---\n";
         cout << "Primo a giocare: " << primo_giocatore << " la BRISCOLA è : " << BRISCOLA << endl;
 
-        cout << "La tua mano: \n";
-        for (int i = 0; i < mano1.size(); ++i) {
-            cout << i << " ) "; 
-            stampaCarta(mano1[i], cartaCoppe, cartaBastoni, cartaSpade, cartaDenari); 
-            cout << " vale " << puntiDaValore(mano1[i].value) << " punti " << endl;
-        } 
+        cout << "La tua mano:\n";
+        stampaManoAffiancata(mano1, cartaCoppe, cartaBastoni, cartaSpade, cartaDenari);
+
 
         mydata cartaPrima, cartaSeconda;
         bool primoagiocare = (primo_giocatore == "squadra1");
@@ -380,7 +418,7 @@ int main(){
     SetConsoleOutputCP(CP_UTF8);
 
     // carta1 = COPPE
-    string carta1 = u8R"(  .-------------------------.
+    string carta1 = u8R"(      .-------------------------.
       |   {NUM}                     |
       |            o            |
       |           / \           |
@@ -403,8 +441,8 @@ int main(){
 )";
 
     // carta2 = BASTONI
-    string carta2 = u8R"(  .-------------------------.
-      |   {NUM}                     |
+    string carta2 = u8R"(      .-------------------------.
+       |   {NUM}                     |
       |           ________      |
       |          /       /      |
       |     __  /       /__     |
@@ -426,7 +464,7 @@ int main(){
 )";
 
     // carta3 = SPADE
-    string carta3 = u8R"(  .-------------------------.
+    string carta3 = u8R"(      .-------------------------.
       |   {NUM}        ^            |
       |           / \           |
       |          /   \          |
@@ -448,8 +486,8 @@ int main(){
 )";
 
     // carta4 = DENARI
-    string carta4 = u8R"(  .-------------------------.
-      |  {NUM}                      |
+    string carta4 = u8R"(      .-------------------------.
+       |  {NUM}                      |
       | __        ____       __ |
       |/  \     /   o \_    /  \|
       |    |    |     ___\  |   |
