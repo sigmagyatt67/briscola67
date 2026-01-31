@@ -57,6 +57,13 @@ vector<string> splitRighe(const string &ascii) {
     while (getline(ss, r)) righe.push_back(r);
     return righe;
 }
+struct BloccoCarta { 
+    vector<string> righe;
+        WORD colore; };
+
+
+
+
 
 void stampaManoAffiancata(const vector<mydata> &mano,
                           const string &cartaCoppe,
@@ -64,11 +71,12 @@ void stampaManoAffiancata(const vector<mydata> &mano,
                           const string &cartaSpade,
                           const string &cartaDenari)
 {
-    vector<vector<string>> blocchi;
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    vector<BloccoCarta> blocchi;
 
     for (auto &c : mano) {
         string art;
-
         string s = c.segno;
         for (auto &ch : s) ch = tolower(ch);
 
@@ -79,17 +87,31 @@ void stampaManoAffiancata(const vector<mydata> &mano,
 
         art = inserisciNumero(art, c.value);
 
-        blocchi.push_back(splitRighe(art));
+        WORD colore;
+
+        if (s == "coppe")
+            colore = FOREGROUND_RED | FOREGROUND_INTENSITY;
+        else if (s == "bastoni")
+            colore = FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+        else if (s == "spade")
+            colore = FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+        else if (s == "denari")
+            colore = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+
+        blocchi.push_back({ splitRighe(art), colore });
     }
 
-    int righe = blocchi[0].size();
+    int righe = blocchi[0].righe.size();
 
     for (int r = 0; r < righe; r++) {
         for (int i = 0; i < blocchi.size(); i++) {
-            cout << blocchi[i][r] << "   ";
+            SetConsoleTextAttribute(hConsole, blocchi[i].colore);
+            cout << blocchi[i].righe[r] << "   ";
         }
         cout << "\n";
     }
+
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 }
 
 /*############################################################################################################*/
@@ -99,6 +121,8 @@ void stampaCarta(const mydata &c,
                  const string &cartaSpade,
                  const string &cartaDenari) 
 {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
     string s = c.segno;
     for (auto &ch : s) ch = tolower(ch);
 
@@ -109,12 +133,23 @@ void stampaCarta(const mydata &c,
     else if (s == "spade") art = cartaSpade;
     else if (s == "denari") art = cartaDenari;
 
-    // Inserisce il numero dentro l'ASCII art
     art = inserisciNumero(art, c.value);
 
-    cout << art << endl;
-}
+    // colorazione
+    if (s == "coppe")
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+    else if (s == "bastoni")
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+    else if (s == "spade")
+        SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+    else if (s == "denari")
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY); // giallo
 
+    cout << art << endl;
+
+
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+}
 
 /*############################################################################################################*/
 
@@ -205,7 +240,7 @@ int unocontrounomedio(const string &cartaCoppe, const string &cartaBastoni,
         if (primoagiocare) {
             int indice_carta;
             do {
-                cout << "Scegli che carta giocare (indice): " << endl; 
+                cout << "Scegli che carta giocare: 0, 1 o 2 " << endl; 
                 cin >> indice_carta;
             } while (indice_carta < 0 || indice_carta >= (int)mano1.size());
             
@@ -215,9 +250,10 @@ int unocontrounomedio(const string &cartaCoppe, const string &cartaBastoni,
             int indice_cartabot = scegliRispostaBot(mano2, cartaPrima, BRISCOLA);
             cartaSeconda = mano2[indice_cartabot];
             mano2.erase(mano2.begin() + indice_cartabot);
-            cout << "Il bot risponde con: "; 
-            stampaCarta(cartaSeconda, cartaCoppe, cartaBastoni, cartaSpade, cartaDenari); 
-            cout << " che vale " << puntiDaValore(cartaSeconda.value) << " punti " << endl;
+            cout << "Il bot risponde con: " 
+            << cartaSeconda.value << " di " << cartaSeconda.segno
+            << " (" << puntiDaValore(cartaSeconda.value) << " punti)" << endl;
+
         } 
         else {
             int indice_cartabot = scegliScartinaBot(mano2);
@@ -229,7 +265,7 @@ int unocontrounomedio(const string &cartaCoppe, const string &cartaBastoni,
 
             int indice_carta;
             do {
-                cout << "Scegli che carta giocare in risposta (indice): " << endl;
+                cout << "Scegli che carta giocare in risposta: 0, 1 o 2 " << endl;
                 cin >> indice_carta;
             } while (indice_carta < 0 || indice_carta >= (int)mano1.size());
             
@@ -330,7 +366,7 @@ int unocontrounofacile(const string &cartaCoppe, const string &cartaBastoni,
         if (primoagiocare) {
             int indice_carta;
             do {
-                cout << "Scegli che carta giocare (indice): " << endl; 
+                cout << "Scegli che carta giocare: 0, 1 o 2 " << endl; 
                 cin >> indice_carta;
             } while (indice_carta < 0 || indice_carta >= (int)mano1.size());
             
@@ -340,21 +376,21 @@ int unocontrounofacile(const string &cartaCoppe, const string &cartaBastoni,
             int indice_cartabot = rand() % mano2.size();
             cartaSeconda = mano2[indice_cartabot];
             mano2.erase(mano2.begin() + indice_cartabot);
-            cout << "Il bot risponde con: "; 
-            stampaCarta(cartaSeconda, cartaCoppe, cartaBastoni, cartaSpade, cartaDenari); 
-            cout << " che vale " << puntiDaValore(cartaSeconda.value) << " punti " << endl;
-        } 
+            cout << "Il bot risponde con: " 
+            << cartaSeconda.value << " di " << cartaSeconda.segno
+            << " (" << puntiDaValore(cartaSeconda.value) << " punti)" << endl;}
+
         else {
             int indice_cartabot = rand() % mano2.size();
             cartaPrima = mano2[indice_cartabot];
             mano2.erase(mano2.begin() + indice_cartabot);
-            cout << "Il bot gioca: "; 
-            stampaCarta(cartaPrima, cartaCoppe, cartaBastoni, cartaSpade, cartaDenari); 
-            cout << " che vale " << puntiDaValore(cartaPrima.value) << " punti " << endl;
+          cout << "Il bot gioca: "
+          << cartaPrima.value << " di " << cartaPrima.segno
+          << " (" << puntiDaValore(cartaPrima.value) << " punti)" << endl;
 
             int indice_carta;
             do {
-                cout << "Scegli che carta giocare in risposta (indice): " << endl;
+                cout << "Scegli che carta giocare in risposta: 0, 1 o 2 " << endl;
                 cin >> indice_carta;
             } while (indice_carta < 0 || indice_carta >= (int)mano1.size());
             
