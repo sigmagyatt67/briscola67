@@ -25,14 +25,19 @@ int puntiDaValore(int v) {
     if (v == 10) return 4;
     if (v == 9) return 3;
     if (v == 8) return 2;
-    return v;
+    return 0;
 }
 
 /*############################################################################################################*/
-// Inserisce il numero della carta dentro l'ASCII art
 string inserisciNumero(const string &ascii, int numero) {
     string risultato;
-    string num = to_string(numero);
+    string num;
+
+    if (numero == 10)
+        num = "10";   // <-- qui i caratteri speciali
+    else
+        num = to_string(numero);
+
 
     // Copia riga per riga e sostituisce {NUM}
     size_t pos = 0, start = 0;
@@ -435,14 +440,13 @@ int main(){
       |       \         /       |
       |       /         \       |
       |      /___________\      |
-      |     o             o     |
-      |                      {NUM}  |
+      |     o             o  {NUM}  |
       \_________________________/
 )";
 
     // carta2 = BASTONI
     string carta2 = u8R"(      .-------------------------.
-       |   {NUM}                     |
+      |   {NUM}                     |
       |           ________      |
       |          /       /      |
       |     __  /       /__     |
@@ -458,8 +462,7 @@ int main(){
       |         |        /      |
       |_________|       |_______|
       | ^   ^   |_______|  ^  ^ |
-      |  ^   ^            ^     |
-      |                     {NUM}   |
+      |  ^   ^            ^  {NUM}  |
       \_________________________/
 )";
 
@@ -487,8 +490,7 @@ int main(){
 
     // carta4 = DENARI
     string carta4 = u8R"(      .-------------------------.
-       |  {NUM}                      |
-      | __        ____       __ |
+      | __{NUM}       ____       __ |
       |/  \     /   o \_    /  \|
       |    |    |     ___\  |   |
       |  __/   /     |       \  |
@@ -593,7 +595,7 @@ int main(){
                 break;
 
             default:
-                cout << "Scelta non valida!" << endl;
+                cout << "Ma sei ritardato ?" << endl;
                 system("pause");
         }
 
