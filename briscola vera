@@ -694,7 +694,7 @@ int main(){
         cout << "2. Doppio  ===> 2 vs 2" << endl;
         cout<< "----------------"<<endl;
         Sleep(500);
-        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+        SetConsoleTextAttribute(hConsole,FOREGROUND_BLUE | FOREGROUND_INTENSITY );
         cout << "3. Esci" << endl;
         cout<< "----------------"<<endl;
         Sleep(500);
@@ -711,7 +711,7 @@ int main(){
                 cout<< "----------------"<<endl;
                 Sleep(250);
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-                cout << "2. MEDIA" << endl;
+                cout << "2. DIFFICILE" << endl;
                 cout<< "----------------"<<endl;
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                 cout << "\nSELEZIONA LA DIFFICOLTA: " << endl;
@@ -725,7 +725,7 @@ int main(){
                 }
                 else if (scelta == 2) {
                 	Sleep(1000);
-                    cout << "Hai scelto la difficolta media, buona partita! " << endl;                        
+                    cout << "Hai scelto la difficolta difficile, buona partita! " << endl;                        
                     unocontrounomedio(carta1, carta2, carta3, carta4);
                     system("pause");
                 }
