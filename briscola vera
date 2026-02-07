@@ -29,11 +29,17 @@ int puntiDaValore(int v) {
 }
 
 /*############################################################################################################*/
+string convertiValore(int v) {
+    string s = to_string(v);
+    if (s.size() == 1)
+        return " " + s;   
+    return s;           
+}             // per inserire i 10 senza far slittare le carte, dando uno spazio prima dei numeri se sono fatti di una sola cifra
+
+/*############################################################################################################*/
 string inserisciNumero(const string &ascii, int numero) {
     string risultato;
-    string num;
-    
-        num = to_string(numero);
+    string num = convertiValore(numero);
 
 
     // Copia riga per riga e sostituisce {NUM}
@@ -199,6 +205,148 @@ vector<mydata> generaMazzo() {
     return mazzo;
 }
 /*############################################################################################################*/
+int duecontrodue_difficile(const string &cartaCoppe,
+                           const string &cartaBastoni,
+                           const string &cartaSpade,
+                           const string &cartaDenari)
+{
+    srand(time(NULL));
+    setlocale(LC_ALL, "ita");
+
+    vector<mydata> mazzo = generaMazzo();
+
+    vector<mydata> manoGiocatore, manoCompagno, manoBot1, manoBot2;
+
+    for (int i = 0; i < 3; i++) {
+        manoGiocatore.push_back(mazzo.back()); mazzo.pop_back();
+        manoCompagno.push_back(mazzo.back()); mazzo.pop_back();
+        manoBot1.push_back(mazzo.back()); mazzo.pop_back();
+        manoBot2.push_back(mazzo.back()); mazzo.pop_back();
+    }
+
+    string BRISCOLA = mazzo.back().segno;
+    cout << "BRISCOLA: " << BRISCOLA << endl;
+    Sleep(1500);
+
+    int puntiSq1 = 0;
+    int puntiSq2 = 0;
+
+    while (!manoGiocatore.empty()) {
+
+        cout << "\n--- NUOVA MANO 2v2 (DIFFICILE) ---\n";
+        cout << "Ordine: TU -> Bot1 -> Compagno -> Bot2\n";
+        Sleep(750);
+
+        cout << "La tua mano:\n";
+        stampaManoAffiancata(manoGiocatore, cartaCoppe, cartaBastoni, cartaSpade, cartaDenari);
+
+        mydata cGiocatore, cBot1, cCompagno, cBot2;
+
+        // io
+        int scelta;
+        do {
+            cout << "Scegli la carta da giocare (0,1,2): ";
+            cin >> scelta;
+        } while (scelta < 0 || scelta >= manoGiocatore.size());
+
+        cGiocatore = manoGiocatore[scelta];
+        manoGiocatore.erase(manoGiocatore.begin() + scelta);
+
+        cout << "Hai giocato:\n";
+        stampaCarta(cGiocatore, cartaCoppe, cartaBastoni, cartaSpade, cartaDenari);
+        Sleep(750);
+
+        // La carta dominante della mano è la prima giocata
+        mydata cartaDominante = cGiocatore;
+
+        // bot1 risponde alla carta dominante 
+        int idxBot1 = scegliRispostaBot(manoBot1, cartaDominante, BRISCOLA);
+        cBot1 = manoBot1[idxBot1];
+        manoBot1.erase(manoBot1.begin() + idxBot1);
+
+        cout << "Bot1 gioca: " << cBot1.value << " di " << cBot1.segno << endl;
+        Sleep(750);
+
+        // compagno risponde alla carta dominante
+        int idxComp = scegliRispostaBot(manoCompagno, cartaDominante, BRISCOLA);
+        cCompagno = manoCompagno[idxComp];
+        manoCompagno.erase(manoCompagno.begin() + idxComp);
+
+        cout << "Compagno gioca: " << cCompagno.value << " di " << cCompagno.segno << endl;
+        Sleep(750);
+
+        // bot 2 risponde alla carta dominante
+        int idxBot2 = scegliRispostaBot(manoBot2, cartaDominante, BRISCOLA);
+        cBot2 = manoBot2[idxBot2];
+        manoBot2.erase(manoBot2.begin() + idxBot2);
+
+        cout << "Bot2 gioca: " << cBot2.value << " di " << cBot2.segno << endl;
+        Sleep(750);
+
+        //vincitore:
+        vector<pair<mydata,string>> ordine = {
+            {cGiocatore, "sq1"},
+            {cBot1, "sq2"},
+            {cCompagno, "sq1"},
+            {cBot2, "sq2"}
+        };
+
+        string semeInizio = cGiocatore.segno;
+        int best = -1;
+        string vincitore;
+
+        for (auto &x : ordine) {
+            int forza = 0;
+
+            if (x.first.segno == BRISCOLA) forza += 100;
+            if (x.first.segno == semeInizio) forza += 50;
+            forza += puntiDaValore(x.first.value);
+
+            if (forza > best) {
+                best = forza;
+                vincitore = x.second;
+            }
+        }
+
+        int puntiMano = puntiDaValore(cGiocatore.value)
+                      + puntiDaValore(cBot1.value)
+                      + puntiDaValore(cCompagno.value)
+                      + puntiDaValore(cBot2.value);
+
+        if (vincitore == "sq1") {
+            puntiSq1 += puntiMano;
+            cout << "La mano è vinta dalla TUA SQUADRA! +" << puntiMano << endl;
+        } else {
+            puntiSq2 += puntiMano;
+            cout << "La mano è vinta dalla SQUADRA BOT! +" << puntiMano << endl;
+        }
+
+        //pesca
+        if (!mazzo.empty()) {
+            if (vincitore == "sq1") {
+                manoGiocatore.push_back(mazzo.back()); mazzo.pop_back();
+                manoCompagno.push_back(mazzo.back()); mazzo.pop_back();
+                manoBot1.push_back(mazzo.back()); mazzo.pop_back();
+                manoBot2.push_back(mazzo.back()); mazzo.pop_back();
+            } else {
+                manoBot1.push_back(mazzo.back()); mazzo.pop_back();
+                manoBot2.push_back(mazzo.back()); mazzo.pop_back();
+                manoGiocatore.push_back(mazzo.back()); mazzo.pop_back();
+                manoCompagno.push_back(mazzo.back()); mazzo.pop_back();
+            }
+        }
+
+        cout << "Punteggio: TU+Compagno = " << puntiSq1
+             << " | Bot = " << puntiSq2 << endl;
+    }
+
+    cout << "\n=== PARTITA TERMINATA ===\n";
+    cout << "Squadra TU: " << puntiSq1 << endl;
+    cout << "Squadra BOT: " << puntiSq2 << endl;
+
+    return 0;
+}
+/*############################################################################################################*/
 int duecontrodue(const string &cartaCoppe,
                  const string &cartaBastoni,
                  const string &cartaSpade,
@@ -226,7 +374,7 @@ int duecontrodue(const string &cartaCoppe,
 
     while (!manoGiocatore.empty()) {
 
-        cout << "\n--- NUOVA MANO 2v2 ---\n";
+        cout << "\n--- NUOVA MANO ---\n";
         cout << "Ordine: TU -> Bot1 -> Compagno -> Bot2\n";
 Sleep(750);
         cout << "La tua mano:\n";
@@ -326,7 +474,7 @@ Sleep(750);
     }
 
     cout << "\n=== PARTITA TERMINATA ===\n";
-    cout << "Squadra TU: " << puntiSq1 << endl;
+    cout << "TU: " << puntiSq1 << endl;
     cout << "Squadra BOT: " << puntiSq2 << endl;
 
     return 0;
@@ -595,7 +743,7 @@ int main(){
 
     // carta2 = BASTONI
     string carta2 = u8R"(      .-------------------------.
-      |   {NUM}                     |
+      |   {NUM}                    |
       |           ________      |
       |          /       /      |
       |     __  /       /__     |
@@ -611,13 +759,13 @@ int main(){
       |         |        /      |
       |_________|       |_______|
       | ^   ^   |_______|  ^  ^ |
-      |  ^   ^            ^  {NUM}  |
+      |  ^   ^            ^  {NUM} |
       \_________________________/
 )";
 
     // carta3 = SPADE
     string carta3 = u8R"(      .-------------------------.
-      |   {NUM}        ^            |
+      |   {NUM}       ^            |
       |           / \           |
       |          /   \          |
       |         |     |         |
@@ -633,13 +781,13 @@ int main(){
       |          |   |          |
       |          |___|          |
       |            o            |
-      |                     {NUM}   |
+      |                     {NUM}  |
       \_________________________/
 )";
 
     // carta4 = DENARI
     string carta4 = u8R"(      .-------------------------.
-      | __{NUM}       ____       __ |
+      | __{NUM}      ____       __ |
       |/  \     /   o \_    /  \|
       |    |    |     ___\  |   |
       |  __/   /     |       \  |
@@ -655,7 +803,7 @@ int main(){
       | /      |       |      \ |
       |        \_    _/         |
       |          \  /           |
-      |        __/  \__     {NUM}   |
+      |        __/  \__     {NUM}  |
       \_________________________/
 )";
 
@@ -734,11 +882,29 @@ int main(){
             case 2:
             	Sleep(1000);
                 cout << "Hai scelto l'opzione 2, briscola 2 contro 2" << endl;
-                duecontrodue(carta1, carta2, carta3, carta4);
-                system("pause");
-                break;
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                cout << "\n1. FACILE" << endl;
+                cout<< "----------------"<<endl;
+                Sleep(250);
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+                cout << "2. DIFFICILE" << endl;
+                cout<< "----------------"<<endl;
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+                cout << "\nSELEZIONA LA DIFFICOLTA: " << endl;
+                cin >> scelta; 
 
-
+                if (scelta == 1) {
+                	Sleep(1000);
+                    cout << "Hai scelto la difficolta facile, buona partita! " << endl;                        
+                    duecontrodue(carta1, carta2, carta3, carta4);
+                    system("pause");
+                }
+                else if (scelta == 2) {
+                	Sleep(1000);
+                    cout << "Hai scelto la difficolta difficile, buona partita! " << endl;                        
+                    duecontrodue_difficile(carta1, carta2, carta3, carta4);
+                    system("pause");
+                }
             case 3:
                 cout << "Uscita..." << endl;
                 break;
